@@ -1,6 +1,6 @@
 {
 	"temperature": 0.1,
-	"flammability": 1.1,
+	"flammability": 0,
 	"explosiveness": 1.1,
 	"heatCapacity": 0.9,
 	"viscosity": 0.3,

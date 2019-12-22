@@ -2,19 +2,20 @@
 	"type": "GenericCrafter",
 	"health": 200,
 	"size": 3,
-	"liquidCapacity": 10,
+	"liquidCapacity": 30,
 	"hasLiquids": true,
 	"hasPower": true,
 	"consumes": {
 		"liquid": {
-			"liquid": "molten-vbucks/3"
+			"liquid": "molten-vbucks",
+			"amount": 0.0125
 		},
 		"power": {
 			"usage": 1.6666666666,
 			"capacity": 150
 		}
 	},
-	"outputItem": "vbuck/3",
+	"outputItem": "vbuck/1",
 	"requirements": [
 		"titanium/100",
 		"graphite/150",

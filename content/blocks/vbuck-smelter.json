@@ -1,12 +1,14 @@
 {
-	"type": "GenericCrafter",
+	"type": "GenericSmelter",
 	"health": 250,
 	"size": 4,
-	"liquidCapacity": 15,
+	"liquidCapacity": 30,
 	"itemCapacity": 30,
 	"hasItems": true,
 	"hasLiquids": true,
 	"hasPower": true,
+	"craftTime": 60,
+	"flameColor": "#3bcde5",
 	"consumes": {
 		"items": {
 			"items": [
@@ -18,7 +20,7 @@
 		},
 		"liquid": {
 			"liquid": "hypercoolant",
-			"amount": 3,
+			"amount": 0.05,
 			"optional": false
 		},
 		"power": {

@@ -5,10 +5,6 @@ const feathersSpawned = 20;
 const featherRotations = 5; // Times a feather rotates before despawning, set to 60 to disable rotation.
 const featherLifetime = 60; // Ticks before a feather despawns.
 
-/* Textures */
-const coopRegion = Core.atlas.find("vbucks-chicken-coop");
-const rotatorRegion = Core.atlas.find("vbucks-chicken-coop-rotator");
-
 /* Stuff used by Chicken Coop */
 const egg = Vars.content.getByName(ContentType.item, "egg");
 
@@ -34,8 +30,8 @@ const coop = extendContent(Block, "chicken-coop", {
 		}
 	},
 	draw: function(tile){
-		Draw.rect(coopRegion, tile.x, tile.y);
-		Draw.rect(rotatorRegion, tile.x, tile.y, Time.time() * spinSpeed);
+		Draw.rect(Core.atlas.find("chicken-coop"), tile.x, tile.y);
+		Draw.rect(Core.atlas.find("chicken-coop-rotator"), tile.x, tile.y, Time.time() * spinSpeed);
 	}
 });
 

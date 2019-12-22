@@ -12,3 +12,4 @@ It adds:
 * make vbuck forge take hypercoolant too
 * make hypercoolant take water and oil
 * make egg work
+* make hypercoolant factory texture actually work

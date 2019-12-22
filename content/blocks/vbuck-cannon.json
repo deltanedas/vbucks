@@ -25,7 +25,7 @@
 			"hitShake": 0.5,
 			"bulletSprite": "vbucks-vbuck-bullet",
 			"lightining": 10,
-			"lightningLength": 3
+			"lightningLength": 50
 		}
 	},
 	"requirements": [

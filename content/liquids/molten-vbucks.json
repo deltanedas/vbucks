@@ -1,6 +1,6 @@
 {
-	"temperature": 1,
-	"viscosity": 0.9,
+	"temperature": 2,
+	"viscosity": 0.7,
 	"effect": "melting",
-	"color": "00ffaa"
+	"color": "3bcde5"
 }
