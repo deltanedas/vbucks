@@ -1,12 +1,12 @@
 /* Config */
-const eggChance = 1400; // Same odds as rare egg in eggbot.
+const eggChance = 7000; // Same odds as rare egg in eggbot.
 const spinSpeed = 2;
 const feathersSpawned = 20;
 const featherRotations = 5; // Times a feather rotates before despawning, set to 60 to disable rotation.
 const featherLifetime = 60; // Ticks before a feather despawns.
 
 /* Stuff used by Chicken Coop */
-const egg = Vars.content.getByName(ContentType.item, "egg");
+const egg = Vars.content.getByName(ContentType.item, "vbucks-egg");
 
 const featherEffect = newEffect(featherLifetime, e => {
 	Draw.rect(featherRegion, e.x, e.y, e.fin() * (360 / (featherLifetime / featherRotations)));
@@ -29,9 +29,17 @@ const coop = extendContent(Block, "chicken-coop", {
 			}
 		}
 	},
+
 	draw: function(tile){
-		Draw.rect(Core.atlas.find("chicken-coop"), tile.x, tile.y);
-		Draw.rect(Core.atlas.find("chicken-coop-rotator"), tile.x, tile.y, Time.time() * spinSpeed);
+		Draw.rect(Core.atlas.find("vbucks-chicken-coop"), tile.drawx(), tile.drawy());
+		Draw.rect(Core.atlas.find("vbucks-chicken-coop-rotator"), tile.drawx(), tile.drawy(), Time.time() * spinSpeed);
+	},
+
+	generateIcons: function(){
+		return [
+			Core.atlas.find("vbucks-chicken-coop"),
+			Core.atlas.find("vbucks-chicken-coop-rotator")
+		];
 	}
 });
 
