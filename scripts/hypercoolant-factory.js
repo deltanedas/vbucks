@@ -1,4 +1,4 @@
-/*extendContent(Block, "hypercoolant-factory", {
+extendContent(GenericCrafter, "hypercoolant-factory", {
 	draw: function(tile){
 		Draw.rect(this.region, tile.drawx(), tile.drawy());
 		this.drawCracks(tile);
@@ -23,4 +23,4 @@
 			Core.atlas.find("hypercoolant-factory-top")
 		];
 	}
-});*/
+});
