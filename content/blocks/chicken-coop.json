@@ -2,10 +2,14 @@
 	"health": 200,
 	"size": 2,
 	"hasPower": true,
+	"hasItems": true,
 	"consumes": {
 		"power": {
-			"usage": 0.5,
+			"usage": 0.1,
 			"capacity": 70
+		},
+		"items": {
+			"items": ["chicken-feed/1"]
 		}
 	},
 	"requirements": [
