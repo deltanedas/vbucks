@@ -29,7 +29,7 @@ const coop = extendContent(Block, "chicken-coop", {
 		if(tile.entity.cons.valid()){
 			tile.entity.block.consumes.get(ConsumeType.power).trigger(tile.entity);
 			if(Mathf.random(0, eggChance) < 1){
-				tile.entity.block.consumes.get(ConsumeType.items).trigger(tile.entity);
+				tile.entity.block.consumes.get(ConsumeType.item).trigger(tile.entity);
 				if(spam){
 					print("egg");
 				}
