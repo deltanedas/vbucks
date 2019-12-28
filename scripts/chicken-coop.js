@@ -22,6 +22,7 @@ feather.lifetime = featherLifetime;
 feather.collidesTiles = false;
 feather.collidesAir = false;
 feather.collides = false;*/
+// idk how to extend bullettype it doesnt work so i cant make feather particles on egg creation
 
 /* The big boy himself */
 const coop = extendContent(Block, "chicken-coop", {
@@ -51,8 +52,6 @@ const coop = extendContent(Block, "chicken-coop", {
 				tile.entity.items.add(egg, 1);
 				this.tryDump(tile, egg);
 			}
-		} else {
-			this.ticksActive--;
 		}
 	},
 
@@ -73,4 +72,3 @@ const coop = extendContent(Block, "chicken-coop", {
 coop.ticksActive = 0;
 coop.localizedName = Core.bundle.get("block.vbucks-chicken-coop.real-name");
 coop.description = Core.bundle.format("block.vbucks-chicken-coop.real-description", eggChance);
-coop.entityType = Drill.DrillEntity.new;
