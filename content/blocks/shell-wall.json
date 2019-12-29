@@ -1,0 +1,10 @@
+{
+	"type": "Wall",
+	"health": 5600,
+	"size": 2,
+	"requirements": [
+		"egg-shell/32"
+	],
+	"category": "defense",
+	"research": "vbuck-wall"
+}

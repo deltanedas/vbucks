@@ -5,7 +5,7 @@
 	"reload": 30,
 	"range": 200,
 	"rotatespeed": 6,
-	"maxAmmo": 10,
+	"maxAmmo": 9,
 	"targetAir": true,
 	"ammo": {
 		"egg": {
@@ -18,15 +18,24 @@
 			"hitSound": "flame",
 			"ammoMultiplier": 3,
 			"homingPower": 0.001,
-			"homingRange": 15,
-			"splashDamageRadius": 60,
-			"splashDamage": 10,
+			"homingRange": 5,
 			"knockback": 0.1,
 			"hitShake": 1,
 			"recoil": 75,
 			"incendAmount": 10,
 			"bulletSprite": "vbucks-fried-egg",
 			"frontColor": "#ffffff"
+		},
+		"egg-shell": {
+			"type": "FlakBulletType",
+			"speed": 7.5,
+			"reloadMultiplier": 1.5,
+			"damage": 20,
+			"splashDamageRadius": 50,
+			"splashDamage": 40,
+			"ammoMultiplier": 3,
+			"incendAmount": 20,
+			"frontColor": "#ecaf7c"
 		}
 	},
 	"requirements": [

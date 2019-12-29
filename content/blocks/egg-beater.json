@@ -1,0 +1,30 @@
+{
+	"type": "GenericCrafter",
+	"health": 150,
+	"size": 2,
+	"liquidCapacity": 30,
+	"itemCapacity": 30,
+	"hasItems": true,
+	"hasLiquids": true,
+	"hasPower": true,
+	"craftTime": 15,
+	"consumes": {
+		"items": {
+			"items": ["egg/1"]
+		},
+		"power": {
+			"usage": 5,
+			"capacity": 400
+		}
+	},
+	"outputLiquid": "cracked-egg/5",
+	"outputItem": "egg-shell/2",
+	"requirements": [
+		"titanium/150",
+		"graphite/50",
+		"plastanium/50",
+		"egg/20"
+	],
+	"category": "crafting",
+	"research": "chicken-coop"
+}

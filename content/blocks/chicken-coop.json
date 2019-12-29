@@ -13,9 +13,10 @@
 		}
 	},
 	"requirements": [
-		"titanium/20",
-		"plastanium/5",
-		"vbuck/5"
+		"titanium/50",
+		"plastanium/25",
+		"chicken-feed/15",
+		"vbuck/10"
 	],
 	"category": "crafting",
 	"research": "vbuck-forge",
