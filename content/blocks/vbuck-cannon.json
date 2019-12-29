@@ -3,7 +3,7 @@
 	"health": 450,
 	"size": 3,
 	"reload": 30,
-	"range": 200,
+	"range": 175,
 	"rotatespeed": 15,
 	"burstSpacing": 5,
 	"maxAmmo": 10,
@@ -11,7 +11,7 @@
 		"vbuck": {
 			"type": "BasicBulletType",
 			"speed": 10,
-			"damage": 75,
+			"damage": 40,
 			"bulletWidth": 16,
 			"bulletHeight": 24,
 			"shootEffect": "shootSmall",
@@ -19,11 +19,10 @@
 			"ammoMultiplier": 5,
 			"homingPower": 3,
 			"homingRange": 30,
-			"splashDamageRadius": 5,
-			"splashDamage": 20,
-			"knockback": 1,
+			"knockback": 0.1,
 			"hitShake": 0.5,
 			"bulletSprite": "vbucks-vbuck-bullet",
+			"frontColor": "#ffffff",
 			"lightining": 10,
 			"lightningLength": 50
 		}

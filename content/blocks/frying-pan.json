@@ -1,0 +1,39 @@
+{
+	"type": "ArtilleryTurret",
+	"health": 650,
+	"size": 3,
+	"reload": 30,
+	"range": 200,
+	"rotatespeed": 6,
+	"maxAmmo": 10,
+	"targetAir": true,
+	"ammo": {
+		"egg": {
+			"type": "BasicBulletType",
+			"speed": 5,
+			"damage": 60,
+			"bulletWidth": 16,
+			"bulletHeight": 24,
+			"shootEffect": "shootSmall",
+			"hitSound": "flame",
+			"ammoMultiplier": 3,
+			"homingPower": 0.001,
+			"homingRange": 15,
+			"splashDamageRadius": 60,
+			"splashDamage": 10,
+			"knockback": 0.1,
+			"hitShake": 1,
+			"recoil": 75,
+			"incendAmount": 10,
+			"bulletSprite": "vbucks-fried-egg",
+			"frontColor": "#ffffff"
+		}
+	},
+	"requirements": [
+		"titanium/50",
+		"plastanium/20",
+		"egg/3"
+	],
+	"category": "turret",
+	"research": "vbuck-cannon"
+}
