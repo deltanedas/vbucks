@@ -57,6 +57,9 @@ const coop = extendContent(Block, "chicken-coop", {
 
 	draw: function(tile){
 		Draw.rect(Core.atlas.find("vbucks-chicken-coop"), tile.drawx(), tile.drawy());
+		Draw.color();
+	},
+	drawLayer: function(tile){
 		Draw.rect(Core.atlas.find("vbucks-chicken-coop-rotator"), tile.drawx(), tile.drawy(), Time.time() * spinSpeed);
 	},
 
@@ -72,3 +75,4 @@ const coop = extendContent(Block, "chicken-coop", {
 coop.ticksActive = 0;
 coop.localizedName = Core.bundle.get("block.vbucks-chicken-coop.real-name");
 coop.description = Core.bundle.format("block.vbucks-chicken-coop.real-description", eggChance);
+coop.layer = Layer.turret;
