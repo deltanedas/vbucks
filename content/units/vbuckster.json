@@ -1,0 +1,30 @@
+{
+	"type": "flyingUnit",
+	"speed": 0.4,
+	"flying": true,
+	"health": 230,
+	"engineOffset": 7,
+	"range": 40,
+	"weapon": {
+		"name": "mini-vbuck-cannon",
+		"length": 1.5,
+		"reload": 15,
+		"bullet": {
+			"type": "BasicBulletType",
+			"speed": 5,
+			"damage": 40,
+			"bulletWidth": 8,
+			"bulletHeight": 12,
+			"shootEffect": "shootSmall",
+			"smokeEffect": "coreLand",
+			"homingPower": 3,
+			"homingRange": 30,
+			"knockback": 0.1,
+			"hitShake": 0.5,
+			"bulletSprite": "vbucks-vbuck-bullet",
+			"frontColor": "#ffffff",
+			"lightining": 10,
+			"lightningLength": 5
+		}
+	}
+}

@@ -5,5 +5,6 @@
 	"heatCapacity": 1.1,
 	"viscosity": 0.3,
 	"effect": "freezing",
-	"color": "70a5d477"
+	"color": "70a5d477",
+	"barColor": "70a5d4"
 }

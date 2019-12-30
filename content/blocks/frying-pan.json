@@ -21,7 +21,8 @@
 			"homingRange": 5,
 			"knockback": 0.1,
 			"hitShake": 1,
-			"recoil": 75,
+			"recoil": 750,
+			"restitution": 0.2,
 			"incendAmount": 10,
 			"bulletSprite": "vbucks-fried-egg",
 			"frontColor": "#ffffff"
@@ -35,6 +36,7 @@
 			"splashDamage": 40,
 			"ammoMultiplier": 3,
 			"incendAmount": 20,
+			"recoil": 500,
 			"frontColor": "#ecaf7c"
 		}
 	},
