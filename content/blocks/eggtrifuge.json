@@ -1,0 +1,27 @@
+{
+	"type": "GenericCrafter",
+	"health": 150,
+	"size": 3,
+	"liquidCapacity": 5,
+	"itemCapacity": 5,
+	"hasItems": true,
+	"hasLiquids": true,
+	"hasPower": true,
+	"craftTime": 30,
+	"consumes": {
+		"liquid": {
+			"liquid": "cracked-egg/1",
+			"optional": false
+		},
+		"power": 1
+	},
+	"outputLiquid": "albumen/1",
+	"outputItem": "yolk/1",
+	"requirements": [
+		"titanium/150",
+		"graphite/50",
+		"egg-shell/10"
+	],
+	"category": "crafting",
+	"research": "egg-beater"
+}
