@@ -1,5 +1,4 @@
 {
-	"type": "GenericCrafter",
 	"health": 150,
 	"size": 3,
 	"liquidCapacity": 5,
@@ -7,15 +6,15 @@
 	"hasItems": true,
 	"hasLiquids": true,
 	"hasPower": true,
-	"craftTime": 30,
+	"craftTime": 60,
 	"consumes": {
 		"liquid": {
-			"liquid": "cracked-egg/1",
-			"optional": false
+			"liquid": "cracked-egg",
+			"amount": 0.0833333333
 		},
-		"power": 1
+		"power": 4
 	},
-	"outputLiquid": "albumen/1",
+	"outputLiquid": "albumen/4",
 	"outputItem": "yolk/1",
 	"requirements": [
 		"titanium/150",

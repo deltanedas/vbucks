@@ -5,6 +5,7 @@
 	"reload": 30,
 	"range": 200,
 	"rotatespeed": 6,
+	"restitution": 0.2,
 	"maxAmmo": 9,
 	"targetAir": true,
 	"ammo": {
@@ -22,7 +23,6 @@
 			"knockback": 0.1,
 			"hitShake": 1,
 			"recoil": 750,
-			"restitution": 0.2,
 			"incendAmount": 10,
 			"bulletSprite": "vbucks-fried-egg",
 			"frontColor": "#ffffff"
@@ -38,6 +38,22 @@
 			"incendAmount": 20,
 			"recoil": 500,
 			"frontColor": "#ecaf7c"
+		},
+		"yolk": {
+			"type": "MissileBulletType",
+			"speed": 3,
+			"damage": 10,
+			"splashDamageRadius": 30,
+			"splashDamage": 10,
+			"ammoMultiplier": 3,
+			"status": {
+				"name": "egged",
+				"speedMultiplier": 0.25,
+				"effect": "wet",
+				"color": "#dac114"
+			},
+			"recoil": 200,
+			"frontColor": "#dac114"
 		}
 	},
 	"requirements": [

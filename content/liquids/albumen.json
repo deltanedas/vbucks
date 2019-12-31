@@ -1,6 +1,8 @@
 {
-	"flammability": 0.1,
+	"flammability": 0.7,
+	"explosiveness": 1.2,
 	"viscosity": 0.3,
 	"effect": "wet",
-	"color": "#f8f8f877"
+	"color": "#f8f8f877",
+	"barColor": "#f8f8f8"
 }
