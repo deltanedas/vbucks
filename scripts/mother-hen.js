@@ -10,8 +10,8 @@ friedEgg.bulletHeight = 18;
 friedEgg.shootEffect = Fx.shootSmall;
 //friedEgg.hitSound = Sounds.flame;
 friedEgg.ammoMultiplier = 3;
-friedEgg.homingPower = 0.001;
-friedEgg.homingRange = 5;
+friedEgg.homingPower = 1;
+friedEgg.homingRange = 25;
 friedEgg.knockback = 0.1;
 friedEgg.hitShake = 1;
 friedEgg.incendAmount = 20;
@@ -21,6 +21,7 @@ friedEgg.frontColor = Color.valueOf("#ffeecc");
 const eggShell = extend(FlakBulletType, {});
 eggShell.speed = 7.5;
 eggShell.damage = 5;
+eggShell.homingRange = 25;
 eggShell.splashDamageRadius = 50;
 eggShell.splashDamage = 10;
 eggShell.ammoMultiplier = 3;
@@ -67,7 +68,7 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 		}
 	}
 });
-multiWeapon.reload = 50;
+multiWeapon.reload = 25; // ((60 + 40) / 2) / 2, average speed of cannon + flak and theres 2 of em
 multiWeapon.length = 3;
 multiWeapon.alternate = true;
 multiWeapon.bullet = friedEgg; // Assumed to be flak at first
