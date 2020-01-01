@@ -1,0 +1,18 @@
+{
+	"size": 6,
+	"health": 500,
+	"buildTime": 900,
+	"consumes": {
+		"power": 3
+	},
+	"requirements": [
+		"titanium/400",
+		"plastanium/150",
+		"vbuck/100",
+		"egg/100",
+		"silicon/40",
+		"graphite/50"
+	],
+	"category": "upgrade",
+	"research": "vbuckster-chamber"
+}
