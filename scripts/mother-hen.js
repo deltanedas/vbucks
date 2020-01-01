@@ -1,3 +1,6 @@
+/* Config */
+const yolkChance = 5; // 1 in X chance every shot to shoot an extra yolk bullet.
+
 /* Cache */
 const black = Color(0);
 
@@ -29,9 +32,39 @@ eggShell.ammoMultiplier = 3;
 eggShell.incendAmount = 20;
 eggShell.frontColor = Color.valueOf("#ecaf7c");
 
+// Doesn't work idk why
+/*const yolkStatus = extendContent(StatusEffect, "egged", {
+	init: function(){
+		this.trans(StatusEffects.shocked, StatusEffect.TransitionHandler({
+			handle: function(unit, time, newTime, result) {
+				unit.damage(10); // Less conductive than water
+				if(unit.getTeam() == state.rules.waveTeam){
+					Events.fire(Trigger.shock);
+				} // Can't use because Events isnt allowed :(
+				this.result.set(this, time);
+			}
+		}));
+		this.opposite(StatusEffects.burning);
+	}
+});
+yolkStatus.speedMultiplier = 0.25;
+yolkStatus.effect = Fx.wet;
+yolkStatus.color = Color.valueOf("#dac114");*/
+
+const yolk = extend(MissileBulletType, {});
+yolk.speed = 3;
+yolk.damage = 10;
+yolk.splashDamageRadius = 30;
+yolk.splashDamage = 10;
+yolk.ammoMultiplier = 3;
+//yolk.status = yolkStatus;
+yolk.status = StatusEffects.tarred;
+yolk.frontColor = Color.valueOf("#dac114");
+
 const cannon = extendContent(Weapon, "mother-hen-cannon", {});
 cannon.ejectEffect = Fx.blastsmoke;
 cannon.length = 3;
+cannon.width = 5.2;
 cannon.bullet = friedEgg;
 
 const flak = extendContent(Weapon, "mother-hen-flak", {});
@@ -56,12 +89,21 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 	shoot: function(shooter, x, y, angle, left){
 		if(this.parent != null){
 			this.bullet = left ? eggShell : friedEgg; // Alternate between flak and cannon reload speed
+			const shootYolk = Mathf.random(0, yolkChance) < 1;
 			if(Vars.net.client()){
 				this.shootDirect(shooter, x, y, angle, left);
+				if(shootYolk){
+					this.bullet = yolk;
+					this.shootDirect(shooter, x, y, angle, false);
+				}
 			}else{
 				// WILL NOT WORK FOR GENERIC STUFF!!!!
 				// I'm hoping nobody will set a units weapon to this...
 				Call.onPlayerShootWeapon(shooter, x, y, angle, left);
+				if(shootYolk){
+					this.bullet = yolk;
+					Call.onPlayerShootWeapon(shooter, x, y, angle, false);
+				}
 			}
 			// Handle visual recoil properly
 			this.parent.setOffset(left);
