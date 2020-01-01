@@ -142,9 +142,12 @@ hen.cannonOffset = 0;
 hen.flakOffset = 0;
 hen.turnCursor = false;
 /* Custom mech spawn animation + name change */
-const silo = extendContent(MechPad, "hen-silo", {
+const silo = extendContent(MechPad, "hen-silo", {/*
+Doesn't work because entity.player is ALWAYS null.
+Probably because tile.ent() wont cast to mechpad tileentity?
 	drawLayer: function(tile){
 		const entity = tile.ent();
+		print(entity.player);
 
 		if(entity.player != null){
 			print("Player isnt null");
@@ -162,8 +165,9 @@ const silo = extendContent(MechPad, "hen-silo", {
 			}
 		}
 	}
-});
+*/});
 silo.mech = hen;
+silo.update = true;
 
 // If any errors occur in mother hen, these will not be set.
 silo.localizedName = Core.bundle.get("block.vbucks-hen-silo.real-name");
