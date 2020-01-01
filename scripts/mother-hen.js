@@ -21,6 +21,7 @@ friedEgg.frontColor = Color.valueOf("#ffeecc");
 const eggShell = extend(FlakBulletType, {});
 eggShell.speed = 7.5;
 eggShell.damage = 15;
+eggShell.homingPower = 0.001;
 eggShell.homingRange = 25;
 eggShell.splashDamageRadius = 40;
 eggShell.splashDamage = 30;
