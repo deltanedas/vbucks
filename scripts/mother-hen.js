@@ -142,7 +142,27 @@ hen.cannonOffset = 0;
 hen.flakOffset = 0;
 hen.turnCursor = false;
 /* Custom mech spawn animation + name change */
-const silo = extendContent(MechPad, "hen-silo", {});
+const silo = extendContent(MechPad, "hen-silo", {
+	drawLayer: function(tile){
+		const entity = tile.ent();
+
+		if(entity.player != null){
+			print("Player isnt null");
+			if(!entity.sameMech || entity.player.mech != this.mech){
+				print("eeeeeee")
+				Draw.rect(Core.atlas.find("vbucks-mother-hen-complete"), tile.drawx(), tile.drawy());
+
+				// Cover mech with a shadow as if it were slowly emerging from the silo.
+				Draw.color(black, 1 - entity.progress);
+				Draw.rect(Core.atlas.find("vbucks-mother-hen-shadow"), tile.drawx(), tile.drawy());
+				Draw.color();
+			}else{
+				// Draw normally as the player is not constructing a mother hen
+				RespawnBlock.drawRespawn(tile, entity.heat, entity.progress, entity.time, entity.player, Mechs.starterMech);
+			}
+		}
+	}
+});
 silo.mech = hen;
 
 // If any errors occur in mother hen, these will not be set.
