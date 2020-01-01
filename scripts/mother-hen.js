@@ -14,29 +14,29 @@ friedEgg.homingPower = 0.001;
 friedEgg.homingRange = 5;
 friedEgg.knockback = 0.1;
 friedEgg.hitShake = 1;
-friedEgg.recoil = 0;
 friedEgg.incendAmount = 20;
 friedEgg.bulletSprite = "vbucks-fried-egg";
 friedEgg.frontColor = Color.valueOf("#ffeecc");
 
 const eggShell = extend(FlakBulletType, {});
 eggShell.speed = 7.5;
-eggShell.damage = 20;
+eggShell.damage = 5;
 eggShell.splashDamageRadius = 50;
-eggShell.splashDamage = 40;
+eggShell.splashDamage = 10;
 eggShell.ammoMultiplier = 3;
 eggShell.incendAmount = 20;
-eggShell.recoil = 500;
 eggShell.frontColor = Color.valueOf("#ecaf7c");
 
 const cannon = extendContent(Weapon, "mother-hen-cannon", {});
-cannon.length = 1.5;
-cannon.reload = 60;
+cannon.ejectEffect = Fx.blastsmoke;
+cannon.length = 3;
 cannon.bullet = friedEgg;
 
 const flak = extendContent(Weapon, "mother-hen-flak", {});
-flak.length = 1.5;
-flak.reload = 40;
+flak.ejectEffect = Fx.shellEjectBig;
+flak.shots = 4;
+flak.length = 3;
+flak.width = 5.2;
 flak.bullet = eggShell;
 
 // Let the player handle cannon ->  flak switching
@@ -53,9 +53,7 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 	},
 
 	shoot: function(shooter, x, y, angle, left){
-		print("Parent is " + this.parent);
 		if(this.parent != null){
-			const current = left ? friedEgg : eggShell;
 			this.bullet = left ? eggShell : friedEgg; // Alternate between flak and cannon reload speed
 			if(Vars.net.client()){
 				this.shootDirect(shooter, x, y, angle, left);
@@ -65,12 +63,15 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 				Call.onPlayerShootWeapon(shooter, x, y, angle, left);
 			}
 			// Handle visual recoil properly
-			this.parent.setOffset(left ? 1 : 0, current.recoil);
+			this.parent.setOffset(left);
 		}
 	}
 });
+multiWeapon.reload = 50;
+multiWeapon.length = 3;
 multiWeapon.alternate = true;
 multiWeapon.bullet = friedEgg; // Assumed to be flak at first
+multiWeapon.targetDistance = 8 * 64; // Stop it being cross-eyed, 64 tile range
 
 /* Complete rewrite of mech */
 const hen = extendContent(Mech, "mother-hen", {
@@ -90,8 +91,8 @@ const hen = extendContent(Mech, "mother-hen", {
 
 	updateAlt: function(player){
 		// Slowly reduce recoil
-		this.flakOffset = Mathf.lerp(this.flakOffset, 0, 0.02);
-		this.cannonOffset = Mathf.lerp(this.cannonOffset, 0, 0.015);
+		this.flakOffset = Mathf.lerp(this.flakOffset, 0, 0.035);
+		this.cannonOffset = Mathf.lerp(this.cannonOffset, 0, 0.03);
 	},
 
 	draw: function(player){
@@ -100,10 +101,10 @@ const hen = extendContent(Mech, "mother-hen", {
 		const cannonTotal = this.gunOffsetY - this.cannonOffset;
 
 		// OffsetX and OffsetY are swapped because sprite is rotated by 1/4
-		const flakX = Angles.trnsx(player.rotation, this.gunOffsetY, -this.gunOffsetX);
-		const cannonX = Angles.trnsx(player.rotation, this.gunOffsetY, this.gunOffsetX);
-		const flakY = Angles.trnsy(player.rotation, this.gunOffsetY, -this.gunOffsetX);
-		const cannonY = Angles.trnsy(player.rotation, this.gunOffsetY, this.gunOffsetX);
+		const flakX = Angles.trnsx(player.rotation, flakTotal, -this.gunOffsetX);
+		const cannonX = Angles.trnsx(player.rotation, cannonTotal, this.gunOffsetX);
+		const flakY = Angles.trnsy(player.rotation, flakTotal, -this.gunOffsetX);
+		const cannonY = Angles.trnsy(player.rotation, cannonTotal, this.gunOffsetX);
 		Draw.rect(this.cannonRegion, player.x + cannonX, player.y + cannonY, rotation);
 		Draw.rect(this.flakRegion, player.x + flakX, player.y + flakY, rotation);
 		Draw.rect(this.wingsRegion, player.x, player.y, rotation);
@@ -111,11 +112,11 @@ const hen = extendContent(Mech, "mother-hen", {
 	},
 
 	// No more overrides
-	setOffset: function(left, recoil){
-		if(left == 1){
-			this.cannonOffset = recoil;
+	setOffset: function(left){
+		if(left + "" === "true"){
+			this.flakOffset = 1.5;
 		}else{
-			this.flakOffset = recoil;
+			this.cannonOffset = 2;
 		}
 	}
 });
@@ -139,6 +140,7 @@ hen.cannon = cannon;
 hen.flak = flak;
 hen.cannonOffset = 0;
 hen.flakOffset = 0;
+hen.turnCursor = false;
 /* Custom mech spawn animation + name change */
 const silo = extendContent(MechPad, "hen-silo", {});
 silo.mech = hen;
