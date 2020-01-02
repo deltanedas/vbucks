@@ -10,8 +10,4 @@ It adds:
 
 # todo
 * make vbuck forge take hypercoolant too
-* make hypercoolant take water and oil
-* make hypercoolant factory texture actually work
-* make egg separator
-* vbuck mech
-* vbuckster
+* make hypercoolant take cryo and oil
