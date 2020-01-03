@@ -1,7 +1,7 @@
 {
 	"size": 6,
 	"health": 500,
-	"buildTime": 900,
+	"buildTime": 9,
 	"consumes": {
 		"power": 3
 	},

@@ -1,5 +1,6 @@
 /* Config */
 const yolkChance = 5; // 1 in X chance every shot to shoot an extra yolk bullet.
+const rotateSpeed = 0.25; // Max degrees the mech can rotate every tick
 
 /* Cache */
 const black = Color(0);
@@ -86,8 +87,51 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 		}
 	},
 
+	// Do turning slowly like a tank
+	update: function(shooter, pX, pY){
+		var left = false;
+		do{
+			var pos = Vec2(pX, pY);
+			pos.sub(shooter.getX(), shooter.getY());
+			if(pos.len() < this.minPlayerDist){
+				pos.setLength(this.minPlayerDist);
+			}
+			var cx = pos.x + shooter.getX(), cy = pos.y + shooter.getY();
+
+			var ang = pos.angle();
+			pos.setAngle(ang);
+			pos.trns(ang - 90, this.width * Mathf.sign(left), this.length + Mathf.range(this.lengthRand));
+
+			// "realUpdate" to avoid bs infinite recursion
+			this.realUpdate(shooter, pos.x, pos.y, Angles.angle(shooter.getX() + pos.x, shooter.getY() + pos.y, cx, cy), left);
+			left = !left;
+		}while(left);
+	},
+
+	realUpdate: function(shooter, x, y, angle, left){
+		if(shooter.getTimer().get(shooter.getShootTimer(left), this.reload)){
+			if(this.alternate){
+				shooter.getTimer().reset(shooter.getShootTimer(!left), this.reload / 2);
+			}
+
+			this.shoot(shooter, x, y, angle, left);
+		}
+	},
 	shoot: function(shooter, x, y, angle, left){
 		if(this.parent != null){
+			const lastRotation = this.parent.getRotation();
+
+			if(Math.abs(angle - lastRotation) > rotateSpeed){
+				// Limit rotation speed
+				if(angle > lastRotation){
+					angle = rotateSpeed;
+				}else{
+					angle = -rotateSpeed;
+				}
+				angle += lastRotation;
+			}
+			this.parent.setRotation(angle);
+
 			this.bullet = left ? eggShell : friedEgg; // Alternate between flak and cannon reload speed
 			const shootYolk = Mathf.random(0, yolkChance) < 1;
 			if(Vars.net.client()){
@@ -114,7 +158,7 @@ multiWeapon.reload = 15;
 multiWeapon.length = 3;
 multiWeapon.alternate = true;
 multiWeapon.bullet = friedEgg; // Assumed to be flak at first
-multiWeapon.targetDistance = 8 * 64; // Stop it being cross-eyed, 64 tile range
+multiWeapon.width = 5.2;
 
 /* Complete rewrite of mech */
 const hen = extendContent(Mech, "mother-hen", {
@@ -133,34 +177,60 @@ const hen = extendContent(Mech, "mother-hen", {
 	},
 
 	updateAlt: function(player){
+		// Rotation stuff
+		if(this.targetRotation === null){
+			this.targetRotation = player.rotation;
+		}
+		this.targetRotation = Mathf.lerp(this.targetRotation, player.rotation, 0.02);
+
 		// Slowly reduce recoil
 		this.flakOffset = Mathf.lerp(this.flakOffset, 0, 0.035);
 		this.cannonOffset = Mathf.lerp(this.cannonOffset, 0, 0.03);
 	},
 
 	draw: function(player){
-		const rotation = player.rotation - 90;
+		const rotation = this.targetRotation - 90;
 		const flakTotal = this.gunOffsetY - this.flakOffset;
 		const cannonTotal = this.gunOffsetY - this.cannonOffset;
 
 		// OffsetX and OffsetY are swapped because sprite is rotated by 1/4
-		const flakX = Angles.trnsx(player.rotation, flakTotal, -this.gunOffsetX);
-		const cannonX = Angles.trnsx(player.rotation, cannonTotal, this.gunOffsetX);
-		const flakY = Angles.trnsy(player.rotation, flakTotal, -this.gunOffsetX);
-		const cannonY = Angles.trnsy(player.rotation, cannonTotal, this.gunOffsetX);
+		const flakX = Angles.trnsx(this.targetRotation, flakTotal, -this.gunOffsetX);
+		const cannonX = Angles.trnsx(this.targetRotation, cannonTotal, this.gunOffsetX);
+		const flakY = Angles.trnsy(this.targetRotation, flakTotal, -this.gunOffsetX);
+		const cannonY = Angles.trnsy(this.targetRotation, cannonTotal, this.gunOffsetX);
 		Draw.rect(this.cannonRegion, player.x + cannonX, player.y + cannonY, rotation);
 		Draw.rect(this.flakRegion, player.x + flakX, player.y + flakY, rotation);
 		Draw.rect(this.wingsRegion, player.x, player.y, rotation);
 		Draw.rect(this.headRegion, player.x, player.y, rotation);
 	},
 
+	drawStats: function(player){
+		const health = player.healthf();
+		Draw.color(Color.black, player.getTeam().color, health + Mathf.absin(Time.time(), health * 5, 1 - health));
+		Draw.rect(player.getPowerCellRegion(),
+			player.x + Angles.trnsx(this.targetRotation, this.cellTrnsY, 0),
+			player.y + Angles.trnsy(this.targetRotation, this.cellTrnsY, 0),
+			this.targetRotation - 90);
+		Draw.reset();
+		//player.drawBackItems(player.getItemtime(), player.isLocal);
+		//player.drawLight();
+	},
+
 	// No more overrides
 	setOffset: function(left){
-		if(left + "" === "true"){
+		if(left){
 			this.flakOffset = 1.5;
 		}else{
 			this.cannonOffset = 2;
 		}
+	},
+
+	setRotation: function(rotation){
+		this.targetRotation = rotation;
+	},
+
+	getRotation: function(){
+		return this.targetRotation;
 	}
 });
 hen.cannonRegion = null;
@@ -170,7 +240,7 @@ hen.headRegion = null;
 hen.gunOffsetX = 9;
 hen.gunOffsetY = 5.2;
 hen.speed = 0.3;
-hen.boostSpeed = 0.2;
+hen.boostSpeed = 10.2;
 hen.buildPower = 0.5;
 hen.mass = 20;
 hen.engineColor = Color.valueOf("#d62d19");
@@ -179,11 +249,13 @@ hen.health = 4000;
 hen.weapon = multiWeapon;
 hen.cellTrnsY = -6.5;
 hen.engineOffset = 7.5;
+
 hen.cannon = cannon;
 hen.flak = flak;
 hen.cannonOffset = 0;
 hen.flakOffset = 0;
-hen.turnCursor = false;
+hen.targetRotation = null;
+
 /* Custom mech spawn animation + name change */
 const silo = extendContent(MechPad, "hen-silo", {/*
 Doesn't work because entity.player is ALWAYS null.
