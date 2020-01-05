@@ -17,7 +17,7 @@
 			"capacity": 400
 		}
 	},
-	"outputLiquid": "cracked-egg/5",
+	"outputLiquid": "cracked-egg/1",
 	"outputItem": "egg-shell/2",
 	"requirements": [
 		"titanium/150",

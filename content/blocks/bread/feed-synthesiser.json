@@ -1,0 +1,29 @@
+{
+	"type": "GenericCrafter",
+	"health": 700,
+	"size": 4,
+	"liquidCapacity": 35,
+	"hasLiquids": true,
+	"hasItems": true,
+	"hasPower": true,
+	"consumes": {
+		"liquid": {
+			"liquid": "slag",
+			"amount": 0.033333333333333333
+		},
+		"items": {"items": ["sand/5"]},
+		"power": {
+			"usage": 4,
+			"capacity": 700
+		}
+	},
+	"outputItem": "chicken-feed/5",
+	"requirements": [
+		"surge-alloy/400",
+		"graphite/350",
+		"silicon/300",
+		"stale-bread/30"
+	],
+	"category": "crafting",
+	"research": "dough-mixer"
+}

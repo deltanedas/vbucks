@@ -10,11 +10,11 @@
 	"consumes": {
 		"liquid": {
 			"liquid": "cracked-egg",
-			"amount": 0.0833333333
+			"amount": 0.01666666666666
 		},
 		"power": 4
 	},
-	"outputLiquid": "albumen/4",
+	"outputLiquid": "albumen/1",
 	"outputItem": "yolk/1",
 	"requirements": [
 		"titanium/150",

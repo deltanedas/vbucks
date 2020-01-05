@@ -1,0 +1,33 @@
+{
+	"type": "GenericCrafter",
+	"health": 250,
+	"size": 2,
+	"liquidCapacity": 30,
+	"hasLiquids": true,
+	"hasItems": true,
+	"hasPower": true,
+	"consumes": {
+		"liquid": {
+			"liquid": "water",
+			"amount": 0.066666666666666666
+		},
+		"items": {"items": [
+			"flour/2",
+			"yolk/1"
+		]},
+		"power": {
+			"usage": 4,
+			"capacity": 150
+		}
+	},
+	"outputLiquid": "dough/5",
+	"requirements": [
+		"surge-alloy/400",
+		"plastanium/300",
+		"graphite/250",
+		"egg-shell/50",
+		"flour/20"
+	],
+	"category": "crafting",
+	"research": "flour-mill"
+}

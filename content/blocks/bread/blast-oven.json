@@ -1,0 +1,28 @@
+{
+	"type": "GenericCrafter",
+	"health": 1000,
+	"size": 5,
+	"liquidCapacity": 35,
+	"hasLiquids": true,
+	"hasItems": true,
+	"hasPower": true,
+	"consumes": {
+		"liquid": {
+			"liquid": "dough",
+			"amount": 1
+		},
+		"power": {
+			"usage": 10,
+			"capacity": 700
+		}
+	},
+	"outputItem": "bread/20",
+	"requirements": [
+		"surge-alloy/800",
+		"graphite/150",
+		"silicon/1500",
+		"egg-shell/100"
+	],
+	"category": "crafting",
+	"research": "dough-mixer"
+}

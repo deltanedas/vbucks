@@ -1,6 +1,6 @@
 /* Config */
 const yolkChance = 5; // 1 in X chance every shot to shoot an extra yolk bullet.
-const rotateSpeed = 0.25; // Max degrees the mech can rotate every tick
+const rotateSpeed = 0.45; // Max degrees the mech can rotate every tick
 
 /* Cache */
 const black = Color(0);
@@ -77,6 +77,7 @@ flak.bullet = eggShell;
 // Let the player handle cannon ->  flak switching
 const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 	// Don't ask
+	// @Override
 	load: function(){
 		print("No!!!!!!");
 	},
@@ -88,6 +89,7 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 	},
 
 	// Do turning slowly like a tank
+	// @Override
 	update: function(shooter, pX, pY){
 		var left = false;
 		do{
@@ -117,13 +119,21 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 			this.shoot(shooter, x, y, angle, left);
 		}
 	},
+
+	// @Override
 	shoot: function(shooter, x, y, angle, left){
 		if(this.parent != null){
 			const lastRotation = this.parent.getRotation();
 
+			// Prevent wrapping around at +X
+			if(Math.abs(angle - lastRotation) > 180){
+				angle += 360;
+				print("Angle " + angle + " - " + lastRotation);
+			}
+			// Limit rotation speed
 			if(Math.abs(angle - lastRotation) > rotateSpeed){
-				// Limit rotation speed
-				if(angle > lastRotation){
+				// Decide which direction to turn
+				if((angle - this.parent.getBaseRotation()) > lastRotation){
 					angle = rotateSpeed;
 				}else{
 					angle = -rotateSpeed;
@@ -162,12 +172,13 @@ multiWeapon.width = 5.2;
 
 /* Complete rewrite of mech */
 const hen = extendContent(Mech, "mother-hen", {
+	// @Override
 	load: function(){ // YAY I can use load() because it doesn't need super!
 		this.weapon.loadProperly(this);
 		this.cannon.load();
 		this.flak.load();
 
-		this.region = Core.atlas.find(this.name);
+		this.region = Core.atlas.find("clear");
 		this.legRegion = Core.atlas.find(this.name + "-leg");
 		this.baseRegion = Core.atlas.find(this.name + "-base");
 		this.cannonRegion = Core.atlas.find(this.name + "-cannon");
@@ -176,18 +187,21 @@ const hen = extendContent(Mech, "mother-hen", {
 		this.headRegion = Core.atlas.find(this.name + "-head");
 	},
 
+	// @Override
 	updateAlt: function(player){
 		// Rotation stuff
 		if(this.targetRotation === null){
 			this.targetRotation = player.rotation;
 		}
 		this.targetRotation = Mathf.lerp(this.targetRotation, player.rotation, 0.02);
+		this._baseRotation = player.baseRotation;
 
 		// Slowly reduce recoil
 		this.flakOffset = Mathf.lerp(this.flakOffset, 0, 0.035);
 		this.cannonOffset = Mathf.lerp(this.cannonOffset, 0, 0.03);
 	},
 
+	// @Override
 	draw: function(player){
 		const rotation = this.targetRotation - 90;
 		const flakTotal = this.gunOffsetY - this.flakOffset;
@@ -204,6 +218,7 @@ const hen = extendContent(Mech, "mother-hen", {
 		Draw.rect(this.headRegion, player.x, player.y, rotation);
 	},
 
+	// @Override
 	drawStats: function(player){
 		const health = player.healthf();
 		Draw.color(Color.black, player.getTeam().color, health + Mathf.absin(Time.time(), health * 5, 1 - health));
@@ -216,7 +231,6 @@ const hen = extendContent(Mech, "mother-hen", {
 		//player.drawLight();
 	},
 
-	// No more overrides
 	setOffset: function(left){
 		if(left){
 			this.flakOffset = 1.5;
@@ -231,6 +245,10 @@ const hen = extendContent(Mech, "mother-hen", {
 
 	getRotation: function(){
 		return this.targetRotation;
+	},
+
+	getBaseRotation: function(){
+		return this._baseRotation;
 	}
 });
 hen.cannonRegion = null;
@@ -255,11 +273,13 @@ hen.flak = flak;
 hen.cannonOffset = 0;
 hen.flakOffset = 0;
 hen.targetRotation = null;
+hen._baseRotation = 0;
 
 /* Custom mech spawn animation + name change */
 const silo = extendContent(MechPad, "hen-silo", {/*
 Doesn't work because entity.player is ALWAYS null.
 Probably because tile.ent() wont cast to mechpad tileentity?
+	// @Override
 	drawLayer: function(tile){
 		const entity = tile.ent();
 		print(entity.player);
@@ -268,7 +288,7 @@ Probably because tile.ent() wont cast to mechpad tileentity?
 			print("Player isnt null");
 			if(!entity.sameMech || entity.player.mech != this.mech){
 				print("eeeeeee")
-				Draw.rect(Core.atlas.find("vbucks-mother-hen-complete"), tile.drawx(), tile.drawy());
+				Draw.rect(Core.atlas.find("vbucks-mother-hen"), tile.drawx(), tile.drawy());
 
 				// Cover mech with a shadow as if it were slowly emerging from the silo.
 				Draw.color(black, 1 - entity.progress);

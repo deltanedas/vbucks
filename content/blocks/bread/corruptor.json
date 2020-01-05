@@ -1,0 +1,26 @@
+{
+	"type": "GenericCrafter",
+	"health": 500,
+	"size": 3,
+	"hasItems": true,
+	"hasPower": true,
+	"consumes": {
+		"items": {"items": [
+			"stale-bread/1",
+			"spore-pod/2"
+		]},
+		"power": {
+			"usage": 3,
+			"capacity": 200
+		}
+	},
+	"outputItem": "corrupted-bread/1",
+	"requirements": [
+		"surge-alloy/400",
+		"plastanium/100",
+		"graphite/150",
+		"stale-bread/150"
+	],
+	"category": "crafting",
+	"research": "blast-oven"
+}

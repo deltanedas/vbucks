@@ -1,0 +1,23 @@
+{
+	"type": "GenericCrafter",
+	"health": 400,
+	"size": 3,
+	"hasItems": true,
+	"hasPower": true,
+	"consumes": {
+		"items": {"items": ["chicken-feed/1"]},
+		"power": {
+			"usage": 5,
+			"capacity": 150
+		}
+	},
+	"outputItem": "flour/2",
+	"requirements": [
+		"surge-alloy/600",
+		"plastanium/250",
+		"egg-shell/150",
+		"chicken-feed/20"
+	],
+	"category": "crafting",
+	"research": "eggtrifuge"
+}

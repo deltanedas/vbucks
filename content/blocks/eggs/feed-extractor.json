@@ -1,0 +1,22 @@
+{
+	"type": "Drill",
+	"health": 300,
+	"size": 3,
+	"tier": 7,
+	"drillTime": 500,
+	"consumes": {
+		"power": 2,
+		"liquid": {
+			"liquid": "water",
+			"amount": 0.1666666666,
+			"booster": false
+		}
+	},
+	"requirements": [
+		"titanium/50",
+		"thorium/30",
+		"vbuck/30"
+	],
+	"category": "production",
+	"research": "laser-drill"
+}

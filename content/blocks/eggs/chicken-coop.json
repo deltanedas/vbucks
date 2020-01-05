@@ -19,7 +19,7 @@
 		"vbuck/10"
 	],
 	"category": "crafting",
-	"research": "vbuck-forge",
+	"research": "feed-extractor",
 	"update": true,
 	"solid": true
 }
