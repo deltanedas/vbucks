@@ -1,4 +1,7 @@
 # V-Bucks for Mindustry
+
+**Not affiliated with nor endorsed by Epic Games, the Fortnite brand or V-Bucks from Fortnite.**
+
 I've left my mark on another game. Hooray.
 It adds:
 * New resources
