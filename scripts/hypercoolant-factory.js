@@ -3,7 +3,7 @@ extendContent(GenericCrafter, "hypercoolant-factory", {
 		Draw.rect(this.region, tile.drawx(), tile.drawy());
 
 		Draw.color(this.outputLiquid.liquid.color);
-		Draw.alpha(tile.entity.liquids.get(this.outputLiquid.amount) / this.liquidCapacity);
+		Draw.alpha(tile.entity.liquids.get(this.outputLiquid.liquid) / this.liquidCapacity);
 		Draw.rect(Core.atlas.find("vbucks-hypercoolant-factory-liquid"), tile.drawx(), tile.drawy());
 		Draw.color();
 
