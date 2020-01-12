@@ -8,6 +8,7 @@
 	"restitution": 0.2,
 	"maxAmmo": 9,
 	"targetAir": true,
+	"shootSound": "egg",
 	"ammo": {
 		"egg": {
 			"type": "BasicBulletType",

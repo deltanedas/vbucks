@@ -1,0 +1,34 @@
+{
+	"defaultStartingItems": [
+		"copper/300",
+		"lead/250",
+		"titanium/200"
+	],
+	"loadout": "basicFoundation",
+	"requirements": [
+		{
+			"type": "Launched",
+			"zone": "overgrowth"
+		},
+		{
+			"type": "Unlock",
+			"block": "hypercoolant-factory"
+		},
+		{
+			"type": "Unlock",
+			"block": "vbuck-smelter"
+		},
+		{
+			"type": "Unlock",
+			"block": "vbuck-forge"
+		}
+	],
+	"resources": [
+		"coal",
+		"copper",
+		"lead",
+		"sand",
+		"thorium",
+		"titanium"
+	]
+}
