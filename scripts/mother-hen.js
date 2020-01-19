@@ -282,7 +282,6 @@ Probably because tile.ent() wont cast to mechpad tileentity?
 	// @Override
 	drawLayer: function(tile){
 		const entity = tile.ent();
-		print(entity.player);
 		if(entity.player != null){
 			print("Player isnt null");
 			if(!entity.sameMech || entity.player.mech != this.mech){
@@ -297,8 +296,8 @@ Probably because tile.ent() wont cast to mechpad tileentity?
 				RespawnBlock.drawRespawn(tile, entity.heat, entity.progress, entity.time, entity.player, Mechs.starterMech);
 			}
 		}
-	}
-*/});
+	}*/
+});
 silo.mech = hen;
 silo.update = true;
 

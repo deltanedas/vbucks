@@ -1,4 +1,5 @@
 {
 	"viscosity": 2,
+	"flammability": 0.1,
 	"color": "cfb6a4"
 }
