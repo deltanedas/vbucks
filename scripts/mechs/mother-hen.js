@@ -128,7 +128,6 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 			// Prevent wrapping around at +X
 			if(Math.abs(angle - lastRotation) > 180){
 				angle += 360;
-				print("Angle " + angle + " - " + lastRotation);
 			}
 			// Limit rotation speed
 			if(Math.abs(angle - lastRotation) > rotateSpeed){
@@ -168,7 +167,7 @@ multiWeapon.reload = 15;
 multiWeapon.length = 3;
 multiWeapon.alternate = true;
 multiWeapon.bullet = friedEgg; // Assumed to be flak at first
-multiWeapon.width = 5.2;
+multiWeapon.width = 0;
 
 /* Complete rewrite of mech */
 const hen = extendContent(Mech, "mother-hen", {
@@ -227,7 +226,7 @@ const hen = extendContent(Mech, "mother-hen", {
 			player.y + Angles.trnsy(this.targetRotation, this.cellTrnsY, 0),
 			this.targetRotation - 90);
 		Draw.reset();
-		//player.drawBackItems(player.getItemtime(), player.isLocal);
+		//player.drawBackItems();
 		//player.drawLight();
 	},
 
