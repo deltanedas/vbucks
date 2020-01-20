@@ -108,7 +108,7 @@ multiWeapon.reload = 60 / (fireRate / 60);
 multiWeapon.length = 4;
 multiWeapon.alternate = true;
 multiWeapon.bullet = miniVbuck;
-multiWeapon.width = 0;
+multiWeapon.width = 6.5;
 
 /* Complete rewrite of mech */
 const hurricane = extendContent(Mech, "hurricane", {
