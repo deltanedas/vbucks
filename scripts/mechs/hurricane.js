@@ -5,7 +5,7 @@ const fireRate = 600; // RPM of each gun
 /* Bullet */
 const miniVbuck = extend(BasicBulletType, {});
 miniVbuck.speed = 10;
-miniVbuck.damage = 5;
+miniVbuck.damage = 6;
 miniVbuck.bulletWidth = 2;
 miniVbuck.bulletHeight = 3;
 miniVbuck.shootEffect = Fx.shootSmall;
@@ -22,7 +22,7 @@ miniVbuck.lightningLength = 1;
 const gun = extendContent(Weapon, "hurricane-gun", {});
 gun.ejectEffect = Fx.blastsmoke;
 gun.length = 3;
-gun.width = 5.2;
+gun.width = 0;
 gun.bullet = miniVbuck;
 gun.alternate = true;
 
@@ -67,6 +67,8 @@ const multiWeapon = extendContent(Weapon, "hurricane-multi", {
 				shooter.getTimer().reset(shooter.getShootTimer(!left), this.reload / 2);
 			}
 
+			this.shoot(shooter, x, y, angle, left);
+			this.shoot(shooter, x, y, angle, left);
 			this.shoot(shooter, x, y, angle, left);
 		}
 	},
@@ -203,7 +205,7 @@ hurricane.gun = gun;
 hurricane._barrelRotation = 0;
 hurricane.rotorSpeed = 0;
 hurricane.targetRotation = null;
-hurricane.gunOffsetX = 6;
+hurricane.gunOffsetX = 6.5;
 hurricane.gunOffsetY = 4;
 
 /* Custom mech spawn animation + name change */
