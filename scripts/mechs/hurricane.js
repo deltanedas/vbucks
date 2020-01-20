@@ -5,15 +5,15 @@ const fireRate = 600; // RPM of each gun
 /* Bullet */
 const miniVbuck = extend(BasicBulletType, {});
 miniVbuck.speed = 10;
-miniVbuck.damage = 6;
+miniVbuck.damage = 16;
 miniVbuck.bulletWidth = 2;
 miniVbuck.bulletHeight = 3;
 miniVbuck.shootEffect = Fx.shootSmall;
 miniVbuck.smokeEffect = Fx.coreLand;
 miniVbuck.homingPower = 3;
 miniVbuck.homingRange = 5;
-miniVbuck.knockback = 0.05;
-miniVbuck.hitShake = 0.1;
+miniVbuck.knockback = 0;
+miniVbuck.hitShake = 0;
 miniVbuck.bulletSprite = "vbucks-vbuck-bullet";
 miniVbuck.frontColor = Color.valueOf("#ffdddd");
 miniVbuck.lightining = 3;
@@ -68,8 +68,6 @@ const multiWeapon = extendContent(Weapon, "hurricane-multi", {
 			}
 
 			this.shoot(shooter, x, y, angle, left);
-			this.shoot(shooter, x, y, angle, left);
-			this.shoot(shooter, x, y, angle, left);
 		}
 	},
 
@@ -111,6 +109,7 @@ multiWeapon.length = 4;
 multiWeapon.alternate = true;
 multiWeapon.bullet = miniVbuck;
 multiWeapon.width = 6.5;
+multiWeapon.shots = Math.round(fireRate / 360); // Compensate for >1 tick fire delay
 
 /* Complete rewrite of mech */
 const hurricane = extendContent(Mech, "hurricane", {
