@@ -4,9 +4,18 @@ const spinSpeed = 2;
 const feathersSpawned = 20;
 const featherRotations = 5; // Times a feather rotates before despawning, set to 60 to disable rotation.
 const featherLifetime = 2.5; // Seconds before a feather despawns.
-const spam = false; // Print "egg" when an egg is spawned like EggBot.
+const spam = true; /*
+	Print "egg" when an egg is spawned like EggBot.
+	Also creates a 3 second toast.
+*/
 
 /* Stuff used by Chicken Coop */
+
+function toast(text, lifetime){
+	//if(Vars.net.client()){
+		Vars.ui.showInfoToast(text, lifetime);
+	//}
+}
 
 /*print(BulletType);
 featherLifetime *= 60;
@@ -33,6 +42,7 @@ const coop = extendContent(Block, "chicken-coop", {
 				tile.entity.block.consumes.get(ConsumeType.item).trigger(tile.entity);
 				if(spam){
 					print("egg");
+					toast("egg", 1.5);
 				}
 
 				/*for(var i = 0; i < feathersSpawned; i++){
