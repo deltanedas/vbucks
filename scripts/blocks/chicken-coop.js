@@ -12,7 +12,7 @@ const spam = true; /*
 /* Stuff used by Chicken Coop */
 
 function toast(text, lifetime){
-	if(Vars.net.client()){
+	if(Vars.ui !== null){ // Prevent crash on server
 		Vars.ui.showInfoToast(text, lifetime);
 	}
 }
