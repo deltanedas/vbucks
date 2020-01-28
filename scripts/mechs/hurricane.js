@@ -1,3 +1,9 @@
+print(this.global);
+print(this.global.entityLib);
+print(this.global.entityLib.Mech);
+
+const entityLib = this.global.entityLib;
+
 /* Config */
 const rotateSpeed = 1.45; // Max degrees the mech can rotate every shot attempt
 const fireRate = 600; // RPM of each gun
@@ -21,12 +27,12 @@ miniVbuck.lightningLength = 1;
 
 const gun = extendContent(Weapon, "hurricane-gun", {});
 gun.ejectEffect = Fx.blastsmoke;
-gun.length = 3;
-gun.width = 0;
+gun.length = 0;
+gun.width = 6.5;
 gun.bullet = miniVbuck;
 gun.alternate = true;
 
-const hurrcane = extendContent(entityLib.Mech, {
+const hurricane = extendContent(entityLib.Mech, "hurricane", {
 	loadAfter: function(){
 		this.rotorRegion = Core.atlas.find(this.name + "-rotor");
 		this.gunBarrelRegion = Core.atlas.find(this.name + "-gun-barrel");
@@ -36,6 +42,11 @@ const hurrcane = extendContent(entityLib.Mech, {
 	// @Override
 	update: function(player){
 		this.rotorSpeed(player, Mathf.lerp(this.rotorSpeed(player), 15, 0.001));
+	},
+
+	// @Override
+	onShoot: function(weapon){
+		this.rotateBarrel(0.01);
 	},
 
 	// @Override
@@ -55,6 +66,7 @@ const hurrcane = extendContent(entityLib.Mech, {
 
 	drawBarrel: function(player, rot, side, num){
 		const barrel = (this.rotateBarrel(player) + num / 3) % 1;
+		const weapon = this.weapons[0];
 		const barrelX = Angles.trnsx(rot, weapon.length - Math.abs(barrel - 0.5), side * (weapon.width + barrel));
 		const barrelY = Angles.trnsy(rot, weapon.length - Math.abs(barrel - 0.5), side * (weapon.width + barrel));
 		Draw.rect(this.gunBarrelRegion, player.x + barrelX, player.y + barrelY, rot - 90);
@@ -72,7 +84,7 @@ const hurrcane = extendContent(entityLib.Mech, {
 
 	rotateBarrel: function(player, rotation){
 		var ent = this.entity(player);
-		ent.barrelRotation = rotation;
+		ent.barrelRotation += rotation;
 		this.entity(player, ent);
 		return rotation;
 	},
@@ -85,84 +97,8 @@ hurricane.weapon.length = 4;
 hurricane.weapon.width = 6.5;
 hurricane.weapon.bullet = miniVbuck;
 hurricane.weapon.shots = Math.round(fireRate / 360); // Compensate for >1 tick fire delay
-hurricane.weapons = [gun];
+hurricane.weapons = [gun, gun];
 
-/* Complete rewrite of mech */
-const hurricane = extendContent(Mech, "hurricane", {
-	// @Override
-	load: function(){ // YAY I can use load() because it doesn't need super!
-		this.weapon.loadProperly(this);
-		this.gun.load();
-
-		this.region = Core.atlas.find("clear");
-		this.rotorRegion = Core.atlas.find(this.name + "-rotor");
-		this.gunBarrelRegion = Core.atlas.find(this.name + "-gun-barrel");
-		this.bodyRegion = Core.atlas.find(this.name + "-body");
-	},
-
-	// @Override
-	updateAlt: function(player){
-		// Rotation stuff
-		if(this.targetRotation === null){
-			this.targetRotation = player.rotation;
-		}
-		this.targetRotation = Mathf.lerp(this.targetRotation, player.rotation, 0.03);
-		this.rotorSpeed = Mathf.lerp(this.rotorSpeed, 15, 0.001);
-	},
-
-	// @Override
-	draw: function(player){
-		const rotation = this.targetRotation - 90;
-		this.drawGuns(player);
-		Draw.rect(this.bodyRegion, player.x, player.y, rotation);
-
-		const tmp = player.rotation;
-		player.rotation = this.targetRotation;
-		player.drawLight();
-		player.drawBackItems();
-		player.rotation = tmp;
-
-		Draw.rect(this.rotorRegion, player.x, player.y, rotation + Time.time() * this.rotorSpeed);
-	},
-
-	drawGuns: function(player){
-		for(var side = -1; side < 2; side += 2){
-			this.drawBarrel(player, side, 0);
-			this.drawBarrel(player, side, 2);
-			this.drawBarrel(player, side, 1);
-		}
-	},
-
-	drawBarrel: function(player, side, num){
-		const barrel = (this._barrelRotation + num / 3) % 1;
-		const barrelX = Angles.trnsx(this.targetRotation, this.gunOffsetY - Math.abs(barrel - 0.5), side * (this.gunOffsetX + barrel));
-		const barrelY = Angles.trnsy(this.targetRotation, this.gunOffsetY - Math.abs(barrel - 0.5), side * (this.gunOffsetX + barrel));
-		Draw.rect(this.gunBarrelRegion, player.x + barrelX, player.y + barrelY, this.targetRotation - 90);
-	},
-
-	// @Override
-	drawStats: function(player){
-		const health = player.healthf();
-		Draw.color(Color.black, player.getTeam().color, health + Mathf.absin(Time.time(), health * 5, 1 - health));
-		Draw.rect(player.getPowerCellRegion(),
-			player.x + Angles.trnsx(this.targetRotation, this.cellTrnsY, 0),
-			player.y + Angles.trnsy(this.targetRotation, this.cellTrnsY, 0),
-			this.targetRotation - 90);
-		Draw.reset();
-	},
-
-	rotateBarrel: function(){
-		this._barrelRotation = this._barrelRotation + 0.1;
-	},
-
-	setRotation: function(rotation){
-		this.targetRotation = rotation;
-	},
-
-	getRotation: function(){
-		return this.targetRotation;
-	}
-});
 hurricane.rotorRegion = null;
 hurricane.gunBarrelRegion = null;
 hurricane.bodyRegion = null;
@@ -175,13 +111,6 @@ hurricane.health = 500;
 hurricane.weapon = multiWeapon;
 hurricane.cellTrnsY = -5;
 hurricane.engineOffset = 6;
-
-hurricane.gun = gun;
-hurricane._barrelRotation = 0;
-hurricane.rotorSpeed = 0;
-hurricane.targetRotation = null;
-hurricane.gunOffsetX = 6.5;
-hurricane.gunOffsetY = 4;
 
 /* Custom mech spawn animation + name change */
 const pad = extendContent(MechPad, "helipad", {/*
