@@ -26,90 +26,66 @@ gun.width = 0;
 gun.bullet = miniVbuck;
 gun.alternate = true;
 
-const multiWeapon = extendContent(Weapon, "hurricane-multi", {
-	// Don't ask
-	// @Override
-	load: function(){
-		print("No!!!!!!");
-	},
-	loadProperly: function(mech){
-		this.region = Core.atlas.find("clear");
-		if(mech != null){
-			this.parent = mech;
-		}
-	},
-
-	// Do turning slowly like a tank
-	// @Override
-	update: function(shooter, pX, pY){
-		var left = false;
-		do{
-			var pos = Vec2(pX, pY);
-			pos.sub(shooter.getX(), shooter.getY());
-			if(pos.len() < this.minPlayerDist){
-				pos.setLength(this.minPlayerDist);
-			}
-			var cx = pos.x + shooter.getX(), cy = pos.y + shooter.getY();
-
-			var ang = pos.angle();
-			pos.setAngle(ang);
-			pos.trns(ang - 90, this.width * Mathf.sign(left), this.length + Mathf.range(this.lengthRand));
-
-			// "realUpdate" to avoid bs infinite recursion
-			this.realUpdate(shooter, pos.x, pos.y, Angles.angle(shooter.getX() + pos.x, shooter.getY() + pos.y, cx, cy), left);
-			left = !left;
-		}while(left);
-	},
-
-	realUpdate: function(shooter, x, y, angle, left){
-		if(shooter.getTimer().get(shooter.getShootTimer(left), this.reload)){
-			if(this.alternate){
-				shooter.getTimer().reset(shooter.getShootTimer(!left), this.reload / 2);
-			}
-
-			this.shoot(shooter, x, y, angle, left);
-		}
+const hurrcane = extendContent(entityLib.Mech, {
+	loadAfter: function(){
+		this.rotorRegion = Core.atlas.find(this.name + "-rotor");
+		this.gunBarrelRegion = Core.atlas.find(this.name + "-gun-barrel");
+		this.bodyRegion = Core.atlas.find(this.name + "-body");
 	},
 
 	// @Override
-	shoot: function(shooter, x, y, angle, left){
-		if(this.parent != null){
-			const lastRotation = this.parent.getRotation();
+	update: function(player){
+		this.rotorSpeed(player, Mathf.lerp(this.rotorSpeed(player), 15, 0.001));
+	},
 
-			// Prevent wrapping around at +X
-			if(Math.abs(angle - lastRotation) > 180){
-				angle += 360;
-			}
-			// Limit rotation speed
-			if(Math.abs(angle - lastRotation) > rotateSpeed){
-				// Decide which direction to turn
-				if((angle - lastRotation) > lastRotation){
-					angle = rotateSpeed;
-				}else{
-					angle = -rotateSpeed;
-				}
-				angle += lastRotation;
-			}
-			this.parent.setRotation(angle);
+	// @Override
+	drawAbove: function(player, rot){
+		Draw.rect(this.bodyRegion, player.x, player.y, rot);
+		Draw.rect(this.rotorRegion, player.x, player.y, rot + Time.time() * this.rotorSpeed(player));
+	},
 
-			if(Vars.net.client()){
-				this.shootDirect(shooter, x, y, angle, left);
-			}else{
-				// WILL NOT WORK FOR GENERIC STUFF!!!!
-				// I'm hoping nobody will set a units weapon to this...
-				Call.onPlayerShootWeapon(shooter, x, y, angle, left);
-			}
-
-			this.parent.rotateBarrel();
+	// @Override
+	drawWeapons: function(player, rot){
+		for(var side = -1; side < 2; side += 2){
+			this.drawBarrel(player, rot, side, 0);
+			this.drawBarrel(player, rot, side, 2);
+			this.drawBarrel(player, rot, side, 1);
 		}
+	},
+
+	drawBarrel: function(player, rot, side, num){
+		const barrel = (this.rotateBarrel(player) + num / 3) % 1;
+		const barrelX = Angles.trnsx(rot, weapon.length - Math.abs(barrel - 0.5), side * (weapon.width + barrel));
+		const barrelY = Angles.trnsy(rot, weapon.length - Math.abs(barrel - 0.5), side * (weapon.width + barrel));
+		Draw.rect(this.gunBarrelRegion, player.x + barrelX, player.y + barrelY, rot - 90);
+	},
+
+	rotorSpeed: function(player, speed){
+		var ent = this.entity(player);
+		ent.rotorSpeed = speed;
+		this.entity(player, ent);
+		return speed;
+	},
+	rotorSpeed: function(player){
+		return this.entity(player).rotorSpeed;
+	},
+
+	rotateBarrel: function(player, rotation){
+		var ent = this.entity(player);
+		ent.barrelRotation = rotation;
+		this.entity(player, ent);
+		return rotation;
+	},
+	rotateBarrel: function(player){
+		return this.entity(player).barrelRotation;
 	}
 });
-multiWeapon.reload = 60 / (fireRate / 60);
-multiWeapon.length = 4;
-multiWeapon.alternate = true;
-multiWeapon.bullet = miniVbuck;
-multiWeapon.width = 6.5;
-multiWeapon.shots = Math.round(fireRate / 360); // Compensate for >1 tick fire delay
+hurricane.weapon.reload = 60 / (fireRate / 60);
+hurricane.weapon.length = 4;
+hurricane.weapon.width = 6.5;
+hurricane.weapon.bullet = miniVbuck;
+hurricane.weapon.shots = Math.round(fireRate / 360); // Compensate for >1 tick fire delay
+hurricane.weapons = [gun];
 
 /* Complete rewrite of mech */
 const hurricane = extendContent(Mech, "hurricane", {
