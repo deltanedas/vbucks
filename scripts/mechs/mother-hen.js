@@ -35,9 +35,9 @@ eggShell.frontColor = Color.valueOf("#ecaf7c");
 
 // Doesn't work idk why
 /*const yolkStatus = extendContent(StatusEffect, "egged", {
-	init: function(){
+	init(){
 		this.trans(StatusEffects.shocked, StatusEffect.TransitionHandler({
-			handle: function(unit, time, newTime, result) {
+			handle(unit, time, newTime, result) {
 				unit.damage(10); // Less conductive than water
 				if(unit.getTeam() == state.rules.waveTeam){
 					Events.fire(Trigger.shock);
@@ -78,10 +78,10 @@ flak.bullet = eggShell;
 const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 	// Don't ask
 	// @Override
-	load: function(){
+	load(){
 		print("No!!!!!!");
 	},
-	loadProperly: function(mech){
+	loadProperly(mech){
 		this.region = Core.atlas.find("clear");
 		if(mech != null){
 			this.parent = mech;
@@ -90,7 +90,7 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 
 	// Do turning slowly like a tank
 	// @Override
-	update: function(shooter, pX, pY){
+	update(shooter, pX, pY){
 		var left = false;
 		do{
 			var pos = Vec2(pX, pY);
@@ -110,7 +110,7 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 		}while(left);
 	},
 
-	realUpdate: function(shooter, x, y, angle, left){
+	realUpdate(shooter, x, y, angle, left){
 		if(shooter.getTimer().get(shooter.getShootTimer(left), this.reload)){
 			if(this.alternate){
 				shooter.getTimer().reset(shooter.getShootTimer(!left), this.reload / 2);
@@ -121,7 +121,7 @@ const multiWeapon = extendContent(Weapon, "mother-hen-multi", {
 	},
 
 	// @Override
-	shoot: function(shooter, x, y, angle, left){
+	shoot(shooter, x, y, angle, left){
 		if(this.parent != null){
 			const lastRotation = this.parent.getRotation();
 
@@ -172,7 +172,7 @@ multiWeapon.width = 0;
 /* Complete rewrite of mech */
 const hen = extendContent(Mech, "mother-hen", {
 	// @Override
-	load: function(){ // YAY I can use load() because it doesn't need super!
+	load(){ // YAY I can use load() because it doesn't need super!
 		this.weapon.loadProperly(this);
 		this.cannon.load();
 		this.flak.load();
@@ -187,7 +187,7 @@ const hen = extendContent(Mech, "mother-hen", {
 	},
 
 	// @Override
-	updateAlt: function(player){
+	updateAlt(player){
 		// Rotation stuff
 		if(this.targetRotation === null){
 			this.targetRotation = player.rotation;
@@ -201,7 +201,7 @@ const hen = extendContent(Mech, "mother-hen", {
 	},
 
 	// @Override
-	draw: function(player){
+	draw(player){
 		const rotation = this.targetRotation - 90;
 		const flakTotal = this.gunOffsetY - this.flakOffset;
 		const cannonTotal = this.gunOffsetY - this.cannonOffset;
@@ -218,7 +218,7 @@ const hen = extendContent(Mech, "mother-hen", {
 	},
 
 	// @Override
-	drawStats: function(player){
+	drawStats(player){
 		const health = player.healthf();
 		Draw.color(Color.black, player.getTeam().color, health + Mathf.absin(Time.time(), health * 5, 1 - health));
 		Draw.rect(player.getPowerCellRegion(),
@@ -230,7 +230,7 @@ const hen = extendContent(Mech, "mother-hen", {
 		//player.drawLight();
 	},
 
-	setOffset: function(left){
+	setOffset(left){
 		if(left){
 			this.flakOffset = 1.5;
 		}else{
@@ -238,15 +238,15 @@ const hen = extendContent(Mech, "mother-hen", {
 		}
 	},
 
-	setRotation: function(rotation){
+	setRotation(rotation){
 		this.targetRotation = rotation;
 	},
 
-	getRotation: function(){
+	getRotation(){
 		return this.targetRotation;
 	},
 
-	getBaseRotation: function(){
+	getBaseRotation(){
 		return this._baseRotation;
 	}
 });
@@ -279,7 +279,7 @@ const silo = extendContent(MechPad, "hen-silo", {/*
 Doesn't work because entity.player is ALWAYS null.
 Probably because tile.ent() wont cast to mechpad tileentity?
 	// @Override
-	drawLayer: function(tile){
+	drawLayer(tile){
 		const entity = tile.ent();
 		if(entity.player != null){
 			print("Player isnt null");

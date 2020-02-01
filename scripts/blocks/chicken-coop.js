@@ -20,11 +20,11 @@ function toast(text, lifetime){
 /*print(BulletType);
 featherLifetime *= 60;
 const feather = extendContent(BulletType, 1, 0, {
-	draw: function(bullet){
+	draw(bullet){
 		Draw.rect(Core.atlas.find("vbucks-feather"), bullet.x, bullet.y, bullet.rot() * (360 / (featherLifetime / featherRotations)));
 	},
 
-	despawned: function(bullet){}
+	despawned(bullet){}
 });
 feather.hitTiles = false;
 feather.lifetime = featherLifetime;
@@ -35,7 +35,7 @@ feather.collides = false;*/
 
 /* The big boy himself */
 const coop = extendContent(Block, "chicken-coop", {
-	update: function(tile){
+	update(tile){
 		if(tile.entity.cons.valid()){
 			tile.entity.block.consumes.get(ConsumeType.power).trigger(tile.entity);
 			if(Mathf.random(0, eggChance) < 1){
@@ -65,15 +65,15 @@ const coop = extendContent(Block, "chicken-coop", {
 		}
 	},
 
-	draw: function(tile){
+	draw(tile){
 		Draw.rect(Core.atlas.find("vbucks-chicken-coop"), tile.drawx(), tile.drawy());
 		Draw.color();
 	},
-	drawLayer: function(tile){
+	drawLayer(tile){
 		Draw.rect(Core.atlas.find("vbucks-chicken-coop-rotator"), tile.drawx(), tile.drawy(), Time.time() * spinSpeed);
 	},
 
-	generateIcons: function(){
+	generateIcons(){
 		return [
 			Core.atlas.find("vbucks-chicken-coop"),
 			Core.atlas.find("vbucks-chicken-coop-rotator")

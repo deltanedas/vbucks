@@ -4,7 +4,6 @@
 	"flying": true,
 	"health": 230,
 	"engineOffset": 7,
-	"engineColor": "#7fd5fe",
 	"range": 40,
 	"weapon": {
 		"name": "mini-vbuck-cannon",

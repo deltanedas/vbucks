@@ -7,7 +7,7 @@ const speedColour = Color(202, 202, 202); // #cacacaff
 
 /* Cool spin animation */
 const eggtrifuge = extendContent(GenericCrafter, "eggtrifuge", {
-	draw: function(tile){
+	draw(tile){
 		Draw.rect(Core.atlas.find("vbucks-eggtrifuge"), tile.drawx(), tile.drawy());
 
 		// Draw the speed effect
@@ -19,7 +19,7 @@ const eggtrifuge = extendContent(GenericCrafter, "eggtrifuge", {
 		Draw.color();
 	},
 
-	drawLayer: function(tile){
+	drawLayer(tile){
 		var newSpin = (Time.time() * spinSpeed * tile.entity.progress * tile.entity.warmup) % 360;
 		if(this.lastSpin == null){
 			this.lastSpin = newSpin
@@ -32,7 +32,7 @@ const eggtrifuge = extendContent(GenericCrafter, "eggtrifuge", {
 		this.lastSpin = newSpin;
 	},
 
-	generateIcons: function(){
+	generateIcons(){
 		return [
 			Core.atlas.find("vbucks-eggtrifuge"),
 			Core.atlas.find("vbucks-eggtrifuge-rotator")
