@@ -6,7 +6,7 @@ const featherRotations = 5; // Times a feather rotates before despawning, set to
 const featherLifetime = 2.5; // Seconds before a feather despawns.
 const spam = true; /*
 	Print "egg" when an egg is spawned like EggBot.
-	Also creates a 3 second toast.
+	Also creates a short toast.
 */
 
 /* Stuff used by Chicken Coop */
@@ -17,21 +17,28 @@ function toast(text, lifetime){
 	}
 }
 
-/*print(BulletType);
 featherLifetime *= 60;
-const feather = extendContent(BulletType, 1, 0, {
-	draw: function(bullet){
-		Draw.rect(Core.atlas.find("vbucks-feather"), bullet.x, bullet.y, bullet.rot() * (360 / (featherLifetime / featherRotations)));
+const feather = extend(BasicBulletType, {
+	// @Override
+	load: function(){
+		this.frontRegion = Core.atlas.find("vbucks-feather");
 	},
 
+	// @Override
+	draw: function(bullet){
+		Draw.rect(this.frontRegion, bullet.x, bullet.y, bullet.rot() * (360 / (featherLifetime / featherRotations)));
+	},
+
+	// @Override
 	despawned: function(bullet){}
 });
+feather.speed = 1;
+feather.damage = 0;
 feather.hitTiles = false;
 feather.lifetime = featherLifetime;
 feather.collidesTiles = false;
 feather.collidesAir = false;
-feather.collides = false;*/
-// idk how to extend bullettype it doesnt work so i cant make feather particles on egg creation
+feather.collides = false;
 
 /* The big boy himself */
 const coop = extendContent(Block, "chicken-coop", {
@@ -45,7 +52,7 @@ const coop = extendContent(Block, "chicken-coop", {
 					toast("egg", 1.5);
 				}
 
-				/*for(var i = 0; i < feathersSpawned; i++){
+				for(var i = 0; i < feathersSpawned; i++){
 					Calls.createBullet(
 						feather,
 						tile.getTeam(),
@@ -55,7 +62,7 @@ const coop = extendContent(Block, "chicken-coop", {
 						Mathf.random(0.5, 1.0),
 						Mathf.random(0.2, 1.0)
 					);
-				}*/
+				}
 
 				// Add rare eeg
 				const egg = Vars.content.getByName(ContentType.item, "vbucks-egg");
@@ -65,14 +72,12 @@ const coop = extendContent(Block, "chicken-coop", {
 		}
 	},
 
-	draw: function(tile){
-		Draw.rect(Core.atlas.find("vbucks-chicken-coop"), tile.drawx(), tile.drawy());
-		Draw.color();
-	},
+	// @Override
 	drawLayer: function(tile){
 		Draw.rect(Core.atlas.find("vbucks-chicken-coop-rotator"), tile.drawx(), tile.drawy(), Time.time() * spinSpeed);
 	},
 
+	// @Override
 	generateIcons: function(){
 		return [
 			Core.atlas.find("vbucks-chicken-coop"),

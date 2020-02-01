@@ -4,32 +4,33 @@ const spinFactor = 0.5;
 
 /* Cached stuff */
 const speedColour = Color(202, 202, 202); // #cacacaff
+const entities = {};
 
 /* Cool spin animation */
 const eggtrifuge = extendContent(GenericCrafter, "eggtrifuge", {
-	draw: function(tile){
-		Draw.rect(Core.atlas.find("vbucks-eggtrifuge"), tile.drawx(), tile.drawy());
-
+	// @Override
+	drawLayer: function(tile){
 		// Draw the speed effect
-		var factor = tile.entity.warmup;
+		const factor = tile.entity.warmup;
 		if(factor > 0.03){
 			Draw.color(speedColour, factor * 0.75);
 			Draw.rect(Core.atlas.find("vbucks-eggtrifuge-speed"), tile.drawx(), tile.drawy());
 		}
 		Draw.color();
-	},
 
-	drawLayer: function(tile){
 		var newSpin = (Time.time() * spinSpeed * tile.entity.progress * tile.entity.warmup) % 360;
-		if(this.lastSpin == null){
-			this.lastSpin = newSpin
+		const key = tile.x + "," + tile.y;
+		const lastSpin = entities[key];
+		if(lastSpin === undefined){
+			entities[key] = newSpin;
+			lastSpin = newSpin;
 		}
-		//newSpin = Mathf.lerp(this.lastSpin, newSpin, spinFactor);
-		if((newSpin - this.lastSpin) > 50){
-			newSpin = this.lastSpin + 50;
+		if((newSpin - lastSpin) > 50){
+			newSpin = lastSpin + 50;
 		}
+
 		Draw.rect(Core.atlas.find("vbucks-eggtrifuge-rotator"), tile.drawx(), tile.drawy(), newSpin);
-		this.lastSpin = newSpin;
+		entities[key] = newSpin;
 	},
 
 	generateIcons: function(){
