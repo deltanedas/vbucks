@@ -1,7 +1,3 @@
-print(this.global);
-print(this.global.entityLib);
-print(this.global.entityLib.Mech);
-
 const entityLib = this.global.entityLib;
 
 /* Config */
@@ -32,7 +28,8 @@ gun.width = 6.5;
 gun.bullet = miniVbuck;
 gun.alternate = true;
 
-const hurricane = extendContent(entityLib.Mech, "hurricane", {
+const hurricane = entityLib.extendMech(Mech, "hurricane", {
+	// @Override
 	loadAfter: function(){
 		this.rotorRegion = Core.atlas.find(this.name + "-rotor");
 		this.gunBarrelRegion = Core.atlas.find(this.name + "-gun-barrel");
@@ -92,23 +89,14 @@ const hurricane = extendContent(entityLib.Mech, "hurricane", {
 		return this.entity(player).barrelRotation;
 	}
 });
-hurricane.weapon.reload = 60 / (fireRate / 60);
-hurricane.weapon.length = 4;
-hurricane.weapon.width = 6.5;
-hurricane.weapon.bullet = miniVbuck;
-hurricane.weapon.shots = Math.round(fireRate / 360); // Compensate for >1 tick fire delay
 hurricane.weapons = [gun, gun];
 
-hurricane.rotorRegion = null;
-hurricane.gunBarrelRegion = null;
-hurricane.bodyRegion = null;
 hurricane.speed = 0.6;
 hurricane.buildPower = 0.1;
 hurricane.mass = 10;
 hurricane.engineColor = Color.valueOf("#7fd5fe");
 hurricane.flying = true;
 hurricane.health = 500;
-hurricane.weapon = multiWeapon;
 hurricane.cellTrnsY = -5;
 hurricane.engineOffset = 6;
 
