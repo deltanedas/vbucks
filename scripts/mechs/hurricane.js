@@ -25,12 +25,12 @@ const gun = extendContent(Weapon, "hurricane-gun", {});
 gun.ejectEffect = Fx.blastsmoke;
 gun.reload = Math.ceil(60 / (fireRate / 60));
 gun.shots = fireRate > 360 ? Math.round(fireRate / 360) : 1; // Compensate for >1 tick fire delay
-gun.length = 0;
+gun.length = 4;
 gun.width = 6.5;
 gun.bullet = miniVbuck;
 gun.alternate = true;
 
-const hurricane = entityLib.extendMech(Mech, "hurricane", {
+const hurricane = entityLib.extendMech(Mech, "hurricane", [{
 	// @Override
 	loadAfter(){
 		this.rotorRegion = Core.atlas.find(this.name + "-rotor");
@@ -45,7 +45,7 @@ const hurricane = entityLib.extendMech(Mech, "hurricane", {
 
 	// @Override
 	onShoot(player, weapon){
-		this.rotateBarrel(player, 0.01);
+		this.rotateBarrel(player, 0.025);
 	},
 
 	// @Override
@@ -64,10 +64,10 @@ const hurricane = entityLib.extendMech(Mech, "hurricane", {
 	},
 
 	drawBarrel(player, rot, side, num){
-		const barrel = (this.getBarrelRotation(player) + num / 3) % 1;
+		const barrel = ((this.getBarrelRotation(player) + num / 3) % 1) * 2;
 		const weapon = this.weapons[0];
-		const barrelX = Angles.trnsx(rot + 90, side * (weapon.width + barrel), weapon.length - Math.abs(barrel - 0.5));
-		const barrelY = Angles.trnsy(rot + 90, side * (weapon.width + barrel), weapon.length - Math.abs(barrel - 0.5));
+		const barrelX = Angles.trnsx(rot + 90, weapon.length - Math.abs(barrel - 1), side * (weapon.width + barrel));
+		const barrelY = Angles.trnsy(rot + 90, weapon.length - Math.abs(barrel - 1), side * (weapon.width + barrel));
 		Draw.rect(this.gunBarrelRegion, player.x + barrelX, player.y + barrelY, rot);
 	},
 
@@ -93,7 +93,7 @@ const hurricane = entityLib.extendMech(Mech, "hurricane", {
 	getBarrelRotation(player){
 		return this.getEntity(player).barrelRotation || 0;
 	}
-});
+}]);
 hurricane.weapons = [gun, gun];
 hurricane.rotationLimit = rotateSpeed;
 hurricane.rotationLerp = 0.02;
