@@ -22,7 +22,7 @@ miniVbuck.lightining = 3;
 miniVbuck.lightningLength = 1;
 
 const gun = extendContent(Weapon, "hurricane-gun", {});
-gun.ejectEffect = Fx.blastsmoke;
+gun.ejectEffect = Fx.shellEjectSmall;
 gun.reload = Math.ceil(60 / (fireRate / 60));
 gun.shots = fireRate > 360 ? Math.round(fireRate / 360) : 1; // Compensate for >1 tick fire delay
 gun.length = 4;
@@ -44,7 +44,7 @@ const hurricane = entityLib.extendMech(Mech, "hurricane", [{
 	},
 
 	// @Override
-	onShoot(player, weapon){
+	onShoot(player, weapon, x, y, angle){
 		this.rotateBarrel(player, 0.025);
 	},
 
