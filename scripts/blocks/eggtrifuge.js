@@ -33,7 +33,7 @@ const eggtrifuge = extendContent(GenericCrafter, "eggtrifuge", {
 		entities[key] = newSpin;
 	},
 
-	generateIcons: function(){
+	generateIcons(){
 		return [
 			Core.atlas.find("vbucks-eggtrifuge"),
 			Core.atlas.find("vbucks-eggtrifuge-rotator")

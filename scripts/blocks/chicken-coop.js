@@ -1,5 +1,5 @@
 /* Config */
-const eggChance = 7000; // Same odds as rare egg in EggBot.
+const eggChance = 1 / 7000; // Same odds as rare egg in EggBot.
 const spinSpeed = 2;
 const feathersSpawned = 20;
 const featherRotations = 5; // Times a feather rotates before despawning, set to 60 to disable rotation.
@@ -20,17 +20,17 @@ function toast(text, lifetime){
 featherLifetime *= 60;
 const feather = extend(BasicBulletType, {
 	// @Override
-	load: function(){
+	load(){
 		this.frontRegion = Core.atlas.find("vbucks-feather");
 	},
 
 	// @Override
-	draw: function(bullet){
+	draw(bullet){
 		Draw.rect(this.frontRegion, bullet.x, bullet.y, bullet.rot() * (360 / (featherLifetime / featherRotations)));
 	},
 
 	// @Override
-	despawned: function(bullet){}
+	despawned(bullet){}
 });
 feather.speed = 1;
 feather.damage = 0;
@@ -42,10 +42,10 @@ feather.collides = false;
 
 /* The big boy himself */
 const coop = extendContent(Block, "chicken-coop", {
-	update: function(tile){
+	update(tile){
 		if(tile.entity.cons.valid()){
 			tile.entity.block.consumes.get(ConsumeType.power).trigger(tile.entity);
-			if(Mathf.random(0, eggChance) < 1){
+			if(Mathf.chance(eggChance)){
 				tile.entity.block.consumes.get(ConsumeType.item).trigger(tile.entity);
 				if(spam){
 					print("egg");
@@ -73,12 +73,12 @@ const coop = extendContent(Block, "chicken-coop", {
 	},
 
 	// @Override
-	drawLayer: function(tile){
+	drawLayer(tile){
 		Draw.rect(Core.atlas.find("vbucks-chicken-coop-rotator"), tile.drawx(), tile.drawy(), Time.time() * spinSpeed);
 	},
 
 	// @Override
-	generateIcons: function(){
+	generateIcons(){
 		return [
 			Core.atlas.find("vbucks-chicken-coop"),
 			Core.atlas.find("vbucks-chicken-coop-rotator")
