@@ -123,6 +123,17 @@ const hen = entityLib.extendMech(Mech, "mother-hen", [{
 	drawAbove(player, rot){
 		Draw.rect(this.wingsRegion, player.x, player.y, rot);
 		Draw.rect(this.headRegion, player.x, player.y, rot);
+	},
+
+	// @Override
+	drawShadow(player, offsetX, offsetY){
+		offsetX *= player.boostHeat / 2;
+		offsetY *= player.boostHeat / 2;
+		player.x += offsetX;
+		player.y += offsetY;
+		player.draw();
+		player.x -= offsetX;
+		player.y -= offsetY;
 	}
 }]);
 hen.weapons = [flak, cannon];

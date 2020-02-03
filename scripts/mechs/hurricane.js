@@ -57,6 +57,15 @@ const hurricane = entityLib.extendMech(Mech, "hurricane", [{
 	},
 
 	// @Override
+	drawShadow(player, offsetX, offsetY){
+		player.x += offsetX;
+		player.y += offsetY;
+		player.draw();
+		player.x -= offsetX;
+		player.y -= offsetY;
+	},
+
+	// @Override
 	drawWeapons(player, rot){
 		for(var side = -1; side < 2; side += 2){
 			this.drawBarrel(player, rot, side, 0);
