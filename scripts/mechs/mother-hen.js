@@ -66,7 +66,14 @@ yolk.ammoMultiplier = 3;
 yolk.status = StatusEffects.tarred;
 yolk.frontColor = Color.valueOf("#dac114");
 
-const cannon = extendContent(Weapon, "mother-hen-cannon", {});
+const realLoad = {
+	load(){
+		print("my name is " + this.name + " (manually added prefix)")
+		this.region = Core.atlas.find(this.name);
+	}
+};
+
+const cannon = extendContent(Weapon, "vbucks-mother-hen-cannon", realLoad);
 cannon.ejectEffect = Fx.blastsmoke;
 cannon.length = 5.2;
 cannon.width = 9;
@@ -74,8 +81,8 @@ cannon.bullet = friedEgg;
 cannon.recoil = 2;
 cannon.reload = 15;
 
-const flak = extendContent(Weapon, "mother-hen-flak", {});
-flak.ejectEffect = Fx.shellEjectBig;
+const flak = extendContent(Weapon, "vbucks-mother-hen-flak", realLoad);
+flak.ejectEffect = Fx.shellEjectMedium;
 flak.length = 5.2;
 flak.width = 9;
 flak.bullet = eggShell;
@@ -87,22 +94,11 @@ flak.shots = 2;
 const hen = entityLib.extendMech(Mech, "mother-hen", [{
 	// @Override
 	loadAfter(){
+		print("my name is " + this.name + " (automatic prefix)")
 		this.legRegion = Core.atlas.find(this.name + "-leg");
 		this.baseRegion = Core.atlas.find(this.name + "-base");
 		this.wingsRegion = Core.atlas.find(this.name + "-wings");
 		this.headRegion = Core.atlas.find(this.name + "-head");
-
-		for (var i = 0; i < this.weapons.length; i++){
-			this.weapons[i].load();
-		}
-	},
-
-	// @Override
-	update(player){
-		// Slowly reduce recoil
-		for (var i = 0; i < this.weapons.length; i++){
-			this.setOffset(player, i, Mathf.lerp(this.getOffset(player, i), 0, 0.03));
-		}
 	},
 
 	// @Override
@@ -121,44 +117,14 @@ const hen = entityLib.extendMech(Mech, "mother-hen", [{
 			weapon.bullet = old;
 			this.weapon = tmp;
 		}
-
-		// Handle visual recoil properly
-		this.updateOffset(player, this.weapon.weapon || 0);
 	},
 
 	// Players draws legs automatically, how helpful!
 
 	// @Override
-	drawWeapon(player, rot, num, index){
-		const weapon = this.weapons[index];
-
-		const offsetX = weapon.width * num;
-		const offsetY = weapon.length - this.getOffset(player, index);
-		const x = Angles.trnsx(rot + 90, offsetY, offsetX);
-		const y = Angles.trnsy(rot + 90, offsetY, offsetX);
-
-		Draw.rect(weapon.region, player.x + x, player.y + y, rot);
-	},
-
-	// @Override
 	drawAbove(player, rot){
 		Draw.rect(this.wingsRegion, player.x, player.y, rot);
 		Draw.rect(this.headRegion, player.x, player.y, rot);
-	},
-
-	updateOffset(player, weapon){
-		this.setOffset(player, weapon, this.weapons[weapon].recoil);
-	},
-	setOffset(player, weapon, offset){
-		const ent = this.getEntity(player);
-		var offsets = ent.weaponOffsets || {};
-		offsets[weapon] = offset;
-		ent.weaponOffsets = offsets;
-		this.setEntity(player, ent);
-		return offset;
-	},
-	getOffset(player, weapon){
-		return (this.getEntity(player).weaponOffsets || {})[weapon] || 0;
 	}
 }]);
 hen.weapons = [flak, cannon];

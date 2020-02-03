@@ -21,14 +21,16 @@ miniVbuck.frontColor = Color.valueOf("#ffdddd");
 miniVbuck.lightining = 3;
 miniVbuck.lightningLength = 1;
 
-const gun = extendContent(Weapon, "hurricane-gun", {});
+const gun = extendContent(Weapon, "hurricane-gun", {
+	load(){}
+});
 gun.ejectEffect = Fx.shellEjectSmall;
 gun.reload = Math.ceil(60 / (fireRate / 60));
 gun.shots = fireRate > 360 ? Math.round(fireRate / 360) : 1; // Compensate for >1 tick fire delay
 gun.length = 4;
 gun.width = 6.5;
 gun.bullet = miniVbuck;
-gun.alternate = true;
+gun.recoil = 0;
 
 const hurricane = entityLib.extendMech(Mech, "hurricane", [{
 	// @Override
