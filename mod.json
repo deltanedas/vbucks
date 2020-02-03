@@ -3,7 +3,7 @@
 	"displayName": "[sky]V-Bucks[]",
 	"author": "DeltaNedas",
 	"description": "V-Bucks mod ported to Mindustry.\n[yellow]also adds egg[]",
-	"version": "1.9.0",
+	"version": "1.9.1",
 	"minGameVersion": "104",
 	"dependencies": ["entity-lib"]
 }

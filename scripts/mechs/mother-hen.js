@@ -131,7 +131,7 @@ const hen = entityLib.extendMech(Mech, "mother-hen", [{
 		offsetY *= player.boostHeat / 2;
 		player.x += offsetX;
 		player.y += offsetY;
-		player.draw();
+		this.draw(player);
 		player.x -= offsetX;
 		player.y -= offsetY;
 	}

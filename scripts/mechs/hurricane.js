@@ -60,7 +60,7 @@ const hurricane = entityLib.extendMech(Mech, "hurricane", [{
 	drawShadow(player, offsetX, offsetY){
 		player.x += offsetX;
 		player.y += offsetY;
-		player.draw();
+		this.draw(player);
 		player.x -= offsetX;
 		player.y -= offsetY;
 	},
