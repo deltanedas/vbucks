@@ -68,12 +68,11 @@ yolk.frontColor = Color.valueOf("#dac114");
 
 const realLoad = {
 	load(){
-		print("my name is " + this.name + " (manually added prefix)")
-		this.region = Core.atlas.find(this.name);
+		this.region = Core.atlas.find("vbucks-" + this.name);
 	}
 };
 
-const cannon = extendContent(Weapon, "vbucks-mother-hen-cannon", realLoad);
+const cannon = extendContent(Weapon, "mother-hen-cannon", realLoad);
 cannon.ejectEffect = Fx.blastsmoke;
 cannon.length = 5.2;
 cannon.width = 9;
@@ -81,7 +80,7 @@ cannon.bullet = friedEgg;
 cannon.recoil = 2;
 cannon.reload = 15;
 
-const flak = extendContent(Weapon, "vbucks-mother-hen-flak", realLoad);
+const flak = extendContent(Weapon, "mother-hen-flak", realLoad);
 flak.ejectEffect = Fx.shellEjectMedium;
 flak.length = 5.2;
 flak.width = 9;
@@ -94,7 +93,6 @@ flak.shots = 2;
 const hen = entityLib.extendMech(Mech, "mother-hen", [{
 	// @Override
 	loadAfter(){
-		print("my name is " + this.name + " (automatic prefix)")
 		this.legRegion = Core.atlas.find(this.name + "-leg");
 		this.baseRegion = Core.atlas.find(this.name + "-base");
 		this.wingsRegion = Core.atlas.find(this.name + "-wings");
