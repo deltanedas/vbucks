@@ -78,7 +78,7 @@ cannon.length = 5.2;
 cannon.width = 9;
 cannon.bullet = friedEgg;
 cannon.recoil = 2;
-cannon.reload = 15;
+cannon.reload = 30;
 
 const flak = extendContent(Weapon, "mother-hen-flak", realLoad);
 flak.ejectEffect = Fx.shellEjectMedium;
@@ -86,7 +86,7 @@ flak.length = 5.2;
 flak.width = 9;
 flak.bullet = eggShell;
 flak.recoil = 1.5;
-flak.reload = 12;
+flak.reload = 24;
 flak.shots = 2;
 
 /* Complete rewrite of mech */
@@ -123,17 +123,6 @@ const hen = entityLib.extendMech(Mech, "mother-hen", [{
 	drawAbove(player, rot){
 		Draw.rect(this.wingsRegion, player.x, player.y, rot);
 		Draw.rect(this.headRegion, player.x, player.y, rot);
-	},
-
-	// @Override
-	drawShadow(player, offsetX, offsetY){
-		offsetX *= player.boostHeat / 2;
-		offsetY *= player.boostHeat / 2;
-		player.x += offsetX;
-		player.y += offsetY;
-		this.draw(player);
-		player.x -= offsetX;
-		player.y -= offsetY;
 	}
 }]);
 hen.weapons = [flak, cannon];

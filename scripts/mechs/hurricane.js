@@ -6,7 +6,7 @@ const fireRate = 600; // RPM of each gun
 
 /* Bullet */
 const miniVbuck = extend(BasicBulletType, {});
-miniVbuck.speed = 10;
+miniVbuck.speed = 7.5;
 miniVbuck.damage = 16;
 miniVbuck.bulletWidth = 2;
 miniVbuck.bulletHeight = 3;
@@ -26,7 +26,7 @@ const gun = extendContent(Weapon, "hurricane-gun", {
 });
 gun.ejectEffect = Fx.shellEjectSmall;
 gun.reload = Math.ceil(60 / (fireRate / 60));
-gun.shots = fireRate > 360 ? Math.round(fireRate / 360) : 1; // Compensate for >1 tick fire delay
+gun.shots = fireRate > 720 ? Math.round(fireRate / 720) : 1; // Compensate for >1 tick fire delay, 720 not 360 because 2 of em
 gun.length = 4;
 gun.width = 6.5;
 gun.bullet = miniVbuck;
@@ -54,15 +54,6 @@ const hurricane = entityLib.extendMech(Mech, "hurricane", [{
 	drawAbove(player, rot){
 		Draw.rect(this.bodyRegion, player.x, player.y, rot);
 		Draw.rect(this.rotorRegion, player.x, player.y, rot + Time.time() * this.getRotorSpeed(player));
-	},
-
-	// @Override
-	drawShadow(player, offsetX, offsetY){
-		player.x += offsetX;
-		player.y += offsetY;
-		this.draw(player);
-		player.x -= offsetX;
-		player.y -= offsetY;
 	},
 
 	// @Override
