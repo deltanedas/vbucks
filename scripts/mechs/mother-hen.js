@@ -130,6 +130,7 @@ hen.speed = 0.3;
 hen.boostSpeed = 0.35;
 hen.buildPower = 0.5;
 hen.mass = 20;
+hen.shake = 10;
 hen.engineColor = Color.valueOf("#d62d19");
 hen.flying = false;
 hen.health = 4000;
