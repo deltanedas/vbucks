@@ -1,0 +1,22 @@
+{
+	"health": 1000,
+	"size": 5,
+	"hasItems": true,
+	"hasPower": true,
+	"consumes": {
+		"items": {"items": [
+			"stale-bread/3",
+			"blast-compound/10"
+		]},
+		"power": 8
+	},
+	"requirements": [
+		"surge-alloy/400",
+		"corrupted-bread/300",
+		"graphite/650",
+		"thorium/500",
+		"stale-bread/350"
+	],
+	"category": "crafting",
+	"research": "corruptor"
+}
