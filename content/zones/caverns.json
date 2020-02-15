@@ -1,8 +1,9 @@
 {
-	"defaultStartingItems": [
+	"startingItems": [
 		"copper/300",
 		"lead/250",
-		"titanium/200"
+		"graphite/200",
+		"metaglass/150"
 	],
 	"loadout": "basicFoundation",
 	"requirements": [
