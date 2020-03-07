@@ -1,5 +1,5 @@
 // Ensure load order is valid
-require("entity-lib/main.js");
+require("entity-lib/main");
 
 require("blocks/chicken-coop");
 require("blocks/eggtrifuge");
