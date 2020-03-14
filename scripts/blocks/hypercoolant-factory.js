@@ -1,21 +1,29 @@
 extendContent(GenericCrafter, "hypercoolant-factory", {
+	load(){
+		this.super$load();
+		this.liquidRegion = Core.atlas.find(this.name + "-liquid");
+		this.rotatorRegion = Core.atlas.find(this.name + "-rotator");
+		this.topRegion = Core.atlas.find(this.name + "-top");
+	},
+
 	draw(tile){
+		this.super$draw(tile);
 		Draw.rect(this.region, tile.drawx(), tile.drawy());
 
 		Draw.color(this.outputLiquid.liquid.color);
 		Draw.alpha(tile.entity.liquids.get(this.outputLiquid.liquid) / this.liquidCapacity);
-		Draw.rect(Core.atlas.find("vbucks-hypercoolant-factory-liquid"), tile.drawx(), tile.drawy());
+		Draw.rect(this.liquidRegion, tile.drawx(), tile.drawy());
 		Draw.color();
 
-		Draw.rect(Core.atlas.find("vbucks-hypercoolant-factory-rotator"), tile.drawx(), tile.drawy(), Time.time() * (this.craftTime / 60));
-		Draw.rect(Core.atlas.find("vbucks-hypercoolant-factory-top"), tile.drawx(), tile.drawy());
+		Draw.rect(this.rotatorRegion, tile.drawx(), tile.drawy(), Time.time() * (this.craftTime / 60));
+		Draw.rect(this.topRegion, tile.drawx(), tile.drawy());
 	},
 
 	generateIcons(){
 		return [
-			Core.atlas.find("vbucks-hypercoolant-factory"),
-			Core.atlas.find("vbucks-hypercoolant-factory-rotator"),
-			Core.atlas.find("vbucks-hypercoolant-factory-top")
+			Core.atlas.find(this.name),
+			Core.atlas.find(this.name + "-rotator"),
+			Core.atlas.find(this.name + "-top")
 		];
 	}
 });
