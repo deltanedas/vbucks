@@ -8,14 +8,14 @@ extendContent(GenericCrafter, "hypercoolant-factory", {
 
 	draw(tile){
 		this.super$draw(tile);
-		Draw.rect(this.region, tile.drawx(), tile.drawy());
 
+		const entity = tile.ent();
 		Draw.color(this.outputLiquid.liquid.color);
-		Draw.alpha(tile.entity.liquids.get(this.outputLiquid.liquid) / this.liquidCapacity);
+		Draw.alpha(entity.liquids.get(this.outputLiquid.liquid) / this.liquidCapacity);
 		Draw.rect(this.liquidRegion, tile.drawx(), tile.drawy());
 		Draw.color();
 
-		Draw.rect(this.rotatorRegion, tile.drawx(), tile.drawy(), Time.time() * (this.craftTime / 60));
+		Draw.rect(this.rotatorRegion, tile.drawx(), tile.drawy(), entity.warmup * entity.totalProgress);
 		Draw.rect(this.topRegion, tile.drawx(), tile.drawy());
 	},
 
